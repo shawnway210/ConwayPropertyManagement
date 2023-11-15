@@ -15,18 +15,22 @@ db = SQLAlchemy(metadata=metadata)
 class Property(db.Model , SerializerMixin):
     __tablename__='properties'
 
-    serialize_rules = ('-property_users.property', '-availability.property')
+    serialize_rules = ('-property_users.property', '-images.property')
     
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
-    address = db.Column(db.String)
-    descritption = db.Column(db.String)
+    location = db.Column(db.String)
+    description = db.Column(db.String)
     amenities = db.Column(db.String)
-    images = db.Column(db.String)
-
+    availability = db.Column(db.String)
+    
     property_users = db.relationship('PropertyUser', back_populates='property', cascade='all, delete-orphan')
 
-    availlability = db.relationship('Availability', back_populates='property', cascade='all, delete-orphan')
+     
+
+    images = db.relationship('Image', back_populates='property', cascade='all, delete-orphan')
+
+    reviews = db.relationship('Review', back_populates='property', cascade='all, delete-orphan')
 
     @validates('name')
     def validates_name(self, key, name):
@@ -61,7 +65,7 @@ class Property(db.Model , SerializerMixin):
 class Review(db.Model, SerializerMixin):
     __tablename__='reviews'
 
-    serialize_rules = ('-property_users.review', )
+    serialize_rules = ('-property.reviews', )
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
@@ -70,7 +74,9 @@ class Review(db.Model, SerializerMixin):
     comment = db.Column(db.String)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
-    property_users = db.relationship('PropertyUser', back_populates='review', cascade='all, delete-orphan')
+    property_id = db.Column(db.Integer, db.ForeignKey('properties.id'))
+
+    property = db.relationship('Property', back_populates='reviews')
 
     @validates('name')
     def validates_name(self, key, name):
@@ -95,35 +101,6 @@ class Review(db.Model, SerializerMixin):
         
 
 
-class Reservation(db.Model, SerializerMixin):
-    __tablename__='reservations'
-
-    serialize_rules = ('-property_users.reservation', )
-
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String)
-    email = db.Column(db.String)
-    airbnb_link = db.Column(db.String)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    
-    property_users = db.relationship('User', back_populates='reservation', cascade='all, delete-orphan')
-
-    @validates('name')
-    def validates_name(self, key, name):
-        if name:
-            return name
-        else:
-            raise ValueError("Reservation must have name.")
-        
-    @validates('email')
-    def validates_email(self, key, email):
-        if email:
-            return email
-        else:
-            raise ValueError("Reservation must have an email.")
-
-
-
 class User(db.Model, SerializerMixin):
     __tablename__='users'
 
@@ -136,7 +113,7 @@ class User(db.Model, SerializerMixin):
 
 
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String)
+    username = db.Column(db.String, unique=True)
     password = db.Column(db.String)
     role = db.Column(db.String, default='visitor')
 
@@ -148,42 +125,49 @@ class User(db.Model, SerializerMixin):
             return username
         else:
             raise ValueError("The username must be betwen 0 and twenty characters.")
-    
-    
         
+    @validates('password')
+    def validates_password(self,key, password):
 
+        pattern = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
 
-class Availability(db.Model, SerializerMixin):
-    __tablename__ = 'availability'
-
-    serialize_rules = ('-reservation.availability', '-property.avaialbility')
+        if pattern == password:
+            return password
+        else:
+            raise ValueError("Invalid password! Password should be at least 8 characters long and contain at least one lowercase letter, one digit, and one special character (@ $ ! % * ? &)")
+        
+    
+    
+class Image(db.Model, SerializerMixin):
+    __tablename__='images'
 
     id = db.Column(db.Integer, primary_key=True)
-    date = db.Column(db.DateTime)
-    status = db.Column(db.String) 
+    image = db.Column(db.String)
+    
     property_id = db.Column(db.Integer, db.ForeignKey('properties.id'))
 
-    property = db.relationship('Property', back_populates='availability')
+    property = db.relationship('Property', back_populates='images')
+
+    @validates('image')
+    def validates_image(self, key, image):
+        if image == str:
+            return image
+        else:
+            raise ValueError("The image must be a string.")
 
 
 
 class PropertyUser(db.Model, SerializerMixin):
     __tablename__='property_users'
 
-    serialize_rules = ('-property.property_users', '-review.property_users', '-reservation.property_users', '-user.property_users')
+    serialize_rules = ('-property.property_users', '-user.property_users')
 
     id = db.Column(db.Integer, primary_key=True)
 
     property_id = db.Column(db.Integer, db.ForeignKey('properties.id'))
-    use_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    revervation_id = db.Column(db.Integer, db.ForeignKey('reservations.id'))
-    review_id = db.Column(db.Integer, db.ForeignKey('reviews.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     property = db.relationship('Property', back_populates='property_users')
-
-    review = db.relationship('Review', back_populates='property_users')
-
-    reservation = db.relationship('Reservation', back_populates='property_users')
 
     user = db.relationship('User', back_populates='property_users')
 
