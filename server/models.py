@@ -1,6 +1,7 @@
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.ext.associationproxy import association_proxy
 from datetime import datetime
+from sqlalchemy.orm import validates
 from flask_sqlalchemy import SQLAlchemy
 
 from sqlalchemy import MetaData
@@ -14,20 +15,47 @@ db = SQLAlchemy(metadata=metadata)
 class Property(db.Model , SerializerMixin):
     __tablename__='properties'
 
-    serialize_rules = ('-property_users.property', )
+    serialize_rules = ('-property_users.property', '-availability.property')
     
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
     address = db.Column(db.String)
     descritption = db.Column(db.String)
     amenities = db.Column(db.String)
-    #availability_calender = db.Column(db.json)
-    pricing_per_night_in_dollars = db.Column(db.Integer)
     images = db.Column(db.String)
 
     property_users = db.relationship('PropertyUser', back_populates='property', cascade='all, delete-orphan')
 
     availlability = db.relationship('Availability', back_populates='property', cascade='all, delete-orphan')
+
+    @validates('name')
+    def validates_name(self, key, name):
+        if name:
+            return name
+        else:
+            raise ValueError("The property must have a name.")
+    
+    @validates('address')
+    def validates_address(self, key, address):
+        if address:
+            return address
+        else:
+            raise ValueError("The property must have an address.")
+        
+    @validates('description')
+    def validates_description(self, key, description):
+        if description:
+            return description
+        else:
+            raise ValueError("The property must have a description.")
+        
+    @validates('images')
+    def validates_images(self, key, images):
+        if images:
+            return images
+        else:
+            raise ValueError("The property must have images.")
+
     
 
 class Review(db.Model, SerializerMixin):
@@ -36,29 +64,65 @@ class Review(db.Model, SerializerMixin):
     serialize_rules = ('-property_users.review', )
 
     id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String)
+    email = db.Column(db.String)
     rating = db.Column(db.Integer)
     comment = db.Column(db.String)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     property_users = db.relationship('PropertyUser', back_populates='review', cascade='all, delete-orphan')
 
+    @validates('name')
+    def validates_name(self, key, name):
+        if name:
+            return name
+        else:
+            raise ValueError("The review must have name.")
+        
+    @validates('email')
+    def validates_email(self, key, email):
+        if email:
+            return email
+        else:
+            raise ValueError("The review must have an email.")
+        
+    @validates('rating')
+    def validates_rating(self, key, rating):
+        if 0 <= rating <= 5:
+            return rating
+        else:
+            raise ValueError("The reviews rating must btween 0 and 5 ,inclusively.")
+        
+
 
 class Reservation(db.Model, SerializerMixin):
     __tablename__='reservations'
 
-    serialize_rules = ('-property_users.reservation', '-availabiltiy')
+    serialize_rules = ('-property_users.reservation', )
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
     email = db.Column(db.String)
-    check_in = db.Column(db.DateTime)
-    check_out = db.Column(db.DateTime)
+    airbnb_link = db.Column(db.String)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    #availability_calendar = db.Column(db.Json)
     
     property_users = db.relationship('User', back_populates='reservation', cascade='all, delete-orphan')
 
-    availabilty = db.relationship('Availability', back_populates='reservation', cascade='all, delete-orphan')
+    @validates('name')
+    def validates_name(self, key, name):
+        if name:
+            return name
+        else:
+            raise ValueError("Reservation must have name.")
+        
+    @validates('email')
+    def validates_email(self, key, email):
+        if email:
+            return email
+        else:
+            raise ValueError("Reservation must have an email.")
+
+
 
 class User(db.Model, SerializerMixin):
     __tablename__='users'
@@ -78,6 +142,17 @@ class User(db.Model, SerializerMixin):
 
     property_users = db.relationship('PropertyUser', back_populates='user', cascade='all, delete-orphan')
 
+    @validates('username')
+    def validates_username(self, key, username):
+        if 0 < len(username) < 20:
+            return username
+        else:
+            raise ValueError("The username must be betwen 0 and twenty characters.")
+    
+    
+        
+
+
 class Availability(db.Model, SerializerMixin):
     __tablename__ = 'availability'
 
@@ -87,11 +162,8 @@ class Availability(db.Model, SerializerMixin):
     date = db.Column(db.DateTime)
     status = db.Column(db.String) 
     property_id = db.Column(db.Integer, db.ForeignKey('properties.id'))
-    reseevation_id = db.Column(db.Integer, db.ForeignKey('reservations.id'))
 
     property = db.relationship('Property', back_populates='availability')
-
-    reservation = db.relationship('Reservation', back_populates='availability')
 
 
 
