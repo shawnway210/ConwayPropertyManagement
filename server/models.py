@@ -1,8 +1,11 @@
+from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.ext.associationproxy import association_proxy
 from datetime import datetime
 from sqlalchemy.orm import validates
 from flask_sqlalchemy import SQLAlchemy
+
+from config import db, bcrypt
 
 from sqlalchemy import MetaData
 
@@ -25,8 +28,6 @@ class Property(db.Model , SerializerMixin):
     availability = db.Column(db.String)
     
     property_users = db.relationship('PropertyUser', back_populates='property', cascade='all, delete-orphan')
-
-     
 
     images = db.relationship('Image', back_populates='property', cascade='all, delete-orphan')
 
@@ -53,13 +54,6 @@ class Property(db.Model , SerializerMixin):
         else:
             raise ValueError("The property must have a description.")
         
-    @validates('images')
-    def validates_images(self, key, images):
-        if images:
-            return images
-        else:
-            raise ValueError("The property must have images.")
-
     
 
 class Review(db.Model, SerializerMixin):
@@ -114,10 +108,27 @@ class User(db.Model, SerializerMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, unique=True)
-    password = db.Column(db.String)
+    _password_hash = db.Column(db.String)
     role = db.Column(db.String, default='visitor')
 
     property_users = db.relationship('PropertyUser', back_populates='user', cascade='all, delete-orphan')
+
+    @hybrid_property
+    def password_hash(self):
+        raise AttributeError("You don't have permission to view the password!")
+    
+    @password_hash.setter
+    def password_hash(self, password):
+        # generates hashed version of password
+        new_hashed_password = bcrypt.generate_password_hash(password.encode('utf-8'))
+
+        self._password_hash = new_hashed_password.decode('utf-8')
+
+    def authenticate(self, password):
+        # check if inputted password matches user's password
+        return bcrypt.check_password_hash(self._password_hash, password.encode('utf-8'))
+
+
 
     @validates('username')
     def validates_username(self, key, username):
@@ -131,7 +142,7 @@ class User(db.Model, SerializerMixin):
 
         pattern = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
 
-        if pattern == password:
+        if not pattern == password:
             return password
         else:
             raise ValueError("Invalid password! Password should be at least 8 characters long and contain at least one lowercase letter, one digit, and one special character (@ $ ! % * ? &)")
