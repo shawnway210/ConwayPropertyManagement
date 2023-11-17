@@ -8,9 +8,9 @@ from flask_restful import Resource
 from flask_migrate import Migrate
 
 # Local imports
-from config import app, api
+from config import app, api, db
 # Add your model imports
-from models import db, Property, Review, User, Image
+from models import  Property, Review, User, Image
 
 # Views go here!
 
@@ -129,19 +129,22 @@ def logout():
 
 @app.route('/properties', methods=['GET', 'POST'])
 def properties():
-    properties = Property.query.all()
-
+    
     if request.method == 'GET':
-
-        user = User.query.filter(User.id == session['user_id']).first()
+        
+        properties = Property.query.all()
+       
+        properties_dict = [property.to_dict() for property in properties]
 
         response = make_response(
-             properties.to_dict(),
+             properties_dict,
             200
         )
 
     elif request.method == 'POST':
-
+        
+        user = User.query.filter(User.id == session['user_id']).first()
+        
         if user.role == 'Admin':
         
             request_json = request.get_json()
@@ -168,7 +171,7 @@ def properties():
 
             return property.to_dict(), 201
         
-        except IntegrityError:
+        except :
 
             return {'error': '422 Unprocessable Entity'} , 422
         
@@ -195,7 +198,7 @@ def property_by_id(id):
 
                 return property.to_dict(), 202
         
-            except IntegrityError:
+            except:
 
                 return {'error': '422 Unprocessable Entity'}, 422
 
@@ -205,16 +208,18 @@ def property_by_id(id):
 
 @app.route('/reviews', methods=['GET','POST'])
 def reviews():
-    reviews = Review.query.all()
-
+    
     if request.method == 'GET':
+        
+        reviews = Review.query.all()
 
+        reviews_dict = [review.to_dict() for review in reviews]
+        
         response = make_response(
-            reviews.to_dict(rules=('-email', )),
+            reviews_dict,
             200
         )
-
-        return response
+        
         
     elif request.method == 'POST':
 
@@ -233,12 +238,13 @@ def reviews():
             db.session.add(new_review_obj)
             db.session.commit()
 
-            return new_review_obj.to_dict(rules=('-email', ))
+            return new_review_obj.to_dict()
         
         except ValueError:
 
             return {'error': 'Review must have name, email, rating'}
-
+    
+    return response
 
 
 
@@ -258,7 +264,7 @@ def review_by_id(id):
             db.session.commit()
 
             response = make_response(
-                review.to_dict(rules=('-email', )),
+                review.to_dict(),
                 202
             )
         
@@ -285,14 +291,18 @@ def review_by_id(id):
 
 @app.route('/images', methods=['GET', 'POST'])
 def images():
-    images = Image.query.all()
-
+    
     if request.method == 'GET':
+        images = Image.query.all()
 
+        images_dict = [image.to_dict() for image in images]
+        
         response = make_response(
-            images.to_dict(),
+            images_dict,
             200
         )
+        return response
+    
     elif request.method == ['POST']:
         user = User.query.filter(User.id == session['user_id']).first()
 
@@ -314,9 +324,16 @@ def images():
 
                 return new_image.to_dict(), 201
             
-            except IntegreityError:
+            except:
 
                 return {'error': '422 Unprocessable Entity'}, 422
+        
+        else:
+            
+            response = make_response(
+                {'error':'You are not authorized.'}, 401
+            )
+    
     return response
 
 
@@ -328,7 +345,9 @@ def images_by_id(id):
     user = User.query.filter(User.id == session['user_id']).first()
 
     if user.role == 'Admin':
+       
         if image:
+            
             db.session.delete(image)
             db.session.commit()
 
@@ -340,6 +359,11 @@ def images_by_id(id):
             response = make_response(
                 {'error': 'Image not found'}, 404
             )
+
+    else:
+        response = make_response(
+            {'error':'You are not authorized'}, 401
+        )
     return response
 
 

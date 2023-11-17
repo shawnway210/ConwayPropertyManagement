@@ -5,14 +5,11 @@ from datetime import datetime
 from sqlalchemy.orm import validates
 from flask_sqlalchemy import SQLAlchemy
 
-from config import db, bcrypt
+from config import bcrypt,db
 
-from sqlalchemy import MetaData
 
-metadata = MetaData(naming_convention={
-    "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
-})
-db = SQLAlchemy(metadata=metadata)
+
+
 
 # Models go here!
 class Property(db.Model , SerializerMixin):
@@ -26,6 +23,7 @@ class Property(db.Model , SerializerMixin):
     description = db.Column(db.String)
     amenities = db.Column(db.String)
     availability = db.Column(db.String)
+    image = db.Column(db.String)
     
     property_users = db.relationship('PropertyUser', back_populates='property', cascade='all, delete-orphan')
 
@@ -161,10 +159,10 @@ class Image(db.Model, SerializerMixin):
 
     @validates('image')
     def validates_image(self, key, image):
-        if image == str:
+        if image:
             return image
         else:
-            raise ValueError("The image must be a string.")
+            raise ValueError("The image must be a image.")
 
 
 
