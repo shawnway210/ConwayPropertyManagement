@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: a97c400e9e6a
+Revision ID: 58c83c5e73bc
 Revises: 
-Create Date: 2023-11-15 17:31:14.284434
+Create Date: 2023-11-16 12:21:05.644919
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'a97c400e9e6a'
+revision = '58c83c5e73bc'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -24,6 +24,7 @@ def upgrade():
     sa.Column('location', sa.String(), nullable=True),
     sa.Column('description', sa.String(), nullable=True),
     sa.Column('amenities', sa.String(), nullable=True),
+    sa.Column('availability', sa.String(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('users',
@@ -33,14 +34,6 @@ def upgrade():
     sa.Column('role', sa.String(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('username')
-    )
-    op.create_table('availability',
-    sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('date', sa.DateTime(), nullable=True),
-    sa.Column('status', sa.String(), nullable=True),
-    sa.Column('property_id', sa.Integer(), nullable=True),
-    sa.ForeignKeyConstraint(['property_id'], ['properties.id'], name=op.f('fk_availability_property_id_properties')),
-    sa.PrimaryKeyConstraint('id')
     )
     op.create_table('images',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -76,7 +69,6 @@ def downgrade():
     op.drop_table('reviews')
     op.drop_table('property_users')
     op.drop_table('images')
-    op.drop_table('availability')
     op.drop_table('users')
     op.drop_table('properties')
     # ### end Alembic commands ###

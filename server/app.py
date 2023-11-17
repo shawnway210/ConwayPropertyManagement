@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 
 # Standard library imports
-from flask import Flask, make_response, jsonify, request
+from flask import Flask, make_response, jsonify, request, session
 # Remote library imports
-from flask import request
+
 from flask_restful import Resource
 from flask_migrate import Migrate
 
 # Local imports
 from config import app, api
 # Add your model imports
-from models import db, Property, Review, User, PropertyUser, Image
+from models import db, Property, Review, User, Image
 
 # Views go here!
 
@@ -20,50 +20,327 @@ def index():
 
 
 
-@app.route('/properties', methods=['GET'])
+@app.route('/signup', methods = ['POST'])
+def signup():
+    
+    form_data = request.get_json()
+
+    username = form_data['username']
+    password = form_data['password']
+
+    try:
+
+        new_user = User(
+            username = username
+        )
+
+        
+        new_user.password_hash = password
+
+        db.session.add(new_user)
+
+        db.session.commit()
+
+        
+        session['user_id'] = new_user.id
+
+        response = make_response(
+            new_user.to_dict(),
+            201
+        )
+
+    except:
+        response = make_response(
+            {"ERROR" : "Could not create user!"},
+            400
+        )
+
+    return response
+@app.route('/check_session', methods = ['GET'])
+def check_session():
+    
+    user_id = session['user_id']
+
+    user = User.query.filter(User.id == user_id).first()
+
+    if user:
+        response = make_response(
+            user.to_dict(),
+            200
+        )
+
+    else:
+        response = make_response(
+            {},
+            404
+        )
+
+    return response
+
+@app.route('/login', methods = ['POST'])
+def login():
+    
+    form_data = request.get_json()
+
+    username = form_data['username']
+    password = form_data['password']
+
+    user = User.query.filter(User.username == username).first()
+
+    if user:
+       
+        is_authenticated = user.authenticate(password)
+
+        if is_authenticated:
+            session['user_id'] = user.id
+
+            response = make_response(
+                user.to_dict(),
+                201
+            )
+        else:
+            response = make_response(
+                {"ERROR" : "USER CANNOT LOG IN"},
+                400
+            )
+    else:
+        response = make_response(
+            {"ERROR" : "USER NOT FOUND"},
+            404
+        )
+
+    return response
+
+
+
+@app.route('/logout', methods = ['DELETE'])
+def logout():
+    
+    session['user_id'] = None
+
+    response = make_response(
+        {},
+        204
+    )
+
+    return response
+
+
+
+@app.route('/properties', methods=['GET', 'POST'])
 def properties():
     properties = Property.query.all()
 
-    response = make_response(
-        properties.to_dict(),
-        200
-    )
+    if request.method == 'GET':
+
+        user = User.query.filter(User.id == session['user_id']).first()
+
+        response = make_response(
+             properties.to_dict(),
+            200
+        )
+
+    elif request.method == 'POST':
+
+        if user.role == 'Admin':
+        
+            request_json = request.get_json()
+
+            name = request_json['name']
+            location = request_json['location']
+            description = request_json['description']
+            amenities = request_json['amenities']
+            availability = request_json['availability']
+
+        try:
+            
+            property = Property(
+                name=name,
+                location=location,
+                description=description,
+                amenities=amenities,
+                availability=availability,
+                user_id=session['user_id'],
+            )
+
+            db.session.add(property)
+            db.session.commit()
+
+            return property.to_dict(), 201
+        
+        except IntegrityError:
+
+            return {'error': '422 Unprocessable Entity'} , 422
+        
     return response
 
+        
+
+@app.route('/properties', methods=['PATCH','DELETE'])
+def property_by_id(id):
+
+    user = User.query.filter(User.id == session['user_id']).first()
+
+    if request.method == 'PATCH':
+        if user.role == 'Admin':
+            request_json = request_json()
+
+            try:
+
+                for attr in request_json:
+
+                    setattr(property, attr, request_json.get(attr))
+
+                db.session.commit()
+
+                return property.to_dict(), 202
+        
+            except IntegrityError:
+
+                return {'error': '422 Unprocessable Entity'}, 422
+
+    
 
 
-@app.route('/reviews', methods=['GET'])
+
+@app.route('/reviews', methods=['GET','POST'])
 def reviews():
     reviews = Review.query.all()
 
-    response = make_response(
-        reviews.to_dict(),
-        200
-    )
+    if request.method == 'GET':
+
+        response = make_response(
+            reviews.to_dict(rules=('-email', )),
+            200
+        )
+
+        return response
+        
+    elif request.method == 'POST':
+
+        try:
+
+            form_data = request.get_json()
+
+            new_review_obj = Review(
+
+                name = form_data['name'],
+                email = form_data['email'],
+                rating = form_data['rating'],
+                comment = form_data['comment']
+            )
+
+            db.session.add(new_review_obj)
+            db.session.commit()
+
+            return new_review_obj.to_dict(rules=('-email', ))
+        
+        except ValueError:
+
+            return {'error': 'Review must have name, email, rating'}
+
+
+
+
+@app.route('/reviews/<int:id>', methods=['PATCH','DELETE'])
+def review_by_id(id):
+    review = Review.query.filter(Review.id == id).first()
+
+    if request.method == 'PATCH':
+
+        try:
+
+            form_data = request.get_json()
+
+            for attr in form_data:
+                setattr(review, attr, form_data.get(attr))
+        
+            db.session.commit()
+
+            response = make_response(
+                review.to_dict(rules=('-email', )),
+                202
+            )
+        
+        except ValueError:
+
+            response = make_response(
+                {"Review must have a name, email, rating"},
+                400
+            )
+    
+    elif request.method == 'DELETE':
+        
+        db.session.delete(review)
+        db.session.commit()
+
+        response = make_response(
+            {}, 204
+        )
+
     return response
 
 
 
-@app.route('/images', methods=['GET'])
+
+@app.route('/images', methods=['GET', 'POST'])
 def images():
     images = Image.query.all()
 
-    response = make_response(
-        images.to_dict(),
-        200
-    )
+    if request.method == 'GET':
+
+        response = make_response(
+            images.to_dict(),
+            200
+        )
+    elif request.method == ['POST']:
+        user = User.query.filter(User.id == session['user_id']).first()
+
+        if user.role == 'Admin':
+
+            request_json = request.get_json()
+
+            image = request_json['image']
+
+            try:
+
+                new_image = Image(
+                    image=image,
+                    user_id=session['user_id'],
+                )
+
+                db.session.add(new_image)
+                db.session.commit
+
+                return new_image.to_dict(), 201
+            
+            except IntegreityError:
+
+                return {'error': '422 Unprocessable Entity'}, 422
     return response
 
 
 
+@app.route('/images/<int:id>', methods=['DELETE'])
+def images_by_id(id):
+    image = Image.query.filter(Image.id == id).first()
 
+    user = User.query.filter(User.id == session['user_id']).first()
 
+    if user.role == 'Admin':
+        if image:
+            db.session.delete(image)
+            db.session.commit()
 
-
-
-
-
-
+            response = make_response(
+                {}, 204
+            )
+        
+        else:
+            response = make_response(
+                {'error': 'Image not found'}, 404
+            )
+    return response
 
 
 
