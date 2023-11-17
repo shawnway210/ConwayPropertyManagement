@@ -1,17 +1,11 @@
 import react from 'react';
 
 
-function Property({
-    name,
-    location,
-    description,
-    amenities,
-    availability,
-    images,
-    image,
-    reviews
-}){
-
+function Property({name,location,description,amenities,availability, images, image, reviews})
+    
+    {
+console.log(name)
+console.log(reviews)
     return (
         <div>
             <h1>Name:</h1>
@@ -23,12 +17,12 @@ function Property({
             <p>{description}</p>
             <h2>Amnenties:</h2>
             <p>{amenities}</p>
-            <h3>Reviews</h3>
-            <p>{reviews}</p>
+            {/* <h3>Reviews</h3>
+            <p>{reviews}</p> */}
             <h3>Availability:</h3>
             <p>{availability}</p>
-            <h3>Images</h3>
-            <p>{images}</p>
+            {/* <h3>Images</h3>
+            <p>{images}</p> */}
         </div>
     )
 }

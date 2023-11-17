@@ -134,7 +134,7 @@ def properties():
         
         properties = Property.query.all()
        
-        properties_dict = [property.to_dict() for property in properties]
+        properties_dict = [property.to_dict(rules=('-property_users',)) for property in properties]
 
         response = make_response(
              properties_dict,

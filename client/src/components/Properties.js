@@ -5,6 +5,7 @@ import Property from './Property'
 function Properties({properties}){
 console.log(properties)
     const mappedProperties = properties.map(property => (
+    
         <Property
         key = {property.id}
         id = {property.id}

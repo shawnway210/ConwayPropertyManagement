@@ -15,7 +15,7 @@ from config import bcrypt,db
 class Property(db.Model , SerializerMixin):
     __tablename__='properties'
 
-    serialize_rules = ('-property_users.property', '-images.property')
+    serialize_rules = ('-property_users.property', '-images.property', '-reviews.property')
     
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
@@ -149,6 +149,8 @@ class User(db.Model, SerializerMixin):
     
 class Image(db.Model, SerializerMixin):
     __tablename__='images'
+
+    serialize_rules = ('-property.images',)
 
     id = db.Column(db.Integer, primary_key=True)
     image = db.Column(db.String)
