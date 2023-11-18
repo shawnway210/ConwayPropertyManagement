@@ -5,7 +5,7 @@ import NewPropertyForm from './NewPropertyForm'
 import Images from './Images'
 import NewImage from './NewImage'
 import Reviews from './Reviews'
-import NewReviewForm from './NewReviewForm'
+import NewReviewForm from './NewReviewForm.js'
 
 function App() {
   const [properties, setProperties] = useState([])
