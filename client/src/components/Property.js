@@ -1,11 +1,21 @@
-import react from 'react';
+import React from 'react';
 
 
-function Property({name,location,description,amenities,availability, images, image, reviews})
+function Property({name,location,description,amenities,availability, image, property, mappedProperties, setProperties}){
     
-    {
-console.log(name)
-console.log(reviews)
+    function handleDelete(id){
+    const filteredProperties = mappedProperties.filter(property => {
+        
+        return (property.id !== id)
+    })
+    setProperties(filteredProperties)
+    fetch(`/properties/${property.id}`, {
+            method: "DELETE"
+        })
+        window.location.reload()
+    }
+
+
     return (
         <div>
             <h1>Name:</h1>
@@ -23,6 +33,8 @@ console.log(reviews)
             <p>{availability}</p>
             {/* <h3>Images</h3>
             <p>{images}</p> */}
+
+            <button className='delete_property' onClick={() => handleDelete(property.id)}>Delete</button>
         </div>
     )
 }

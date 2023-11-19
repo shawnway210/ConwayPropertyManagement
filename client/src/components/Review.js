@@ -1,7 +1,10 @@
-import react from 'react';
+import React from 'react';
 
 
-function Review({name, rating, comment}){
+function Review({ name, rating, comment, property },){
+    
+
+
     return(
         <div>
             <h3>Name:</h3>
@@ -10,6 +13,8 @@ function Review({name, rating, comment}){
             <p>{rating}</p>
             <h3>Comment:</h3>
             <p>{comment}</p>
+            <h3>Property</h3>
+            <p>{property}</p>
         </div>
     )
 }

@@ -232,7 +232,8 @@ def reviews():
                 name = form_data['name'],
                 email = form_data['email'],
                 rating = form_data['rating'],
-                comment = form_data['comment']
+                comment = form_data['comment'],
+                property_id = form_data['property_id']
             )
 
             db.session.add(new_review_obj)

@@ -1,4 +1,4 @@
-import react from 'react';
+import React from 'react';
 import Review from './Review';
 
 function Reviews({reviews}){
@@ -9,6 +9,7 @@ function Reviews({reviews}){
        name = {review.name}
        rating = {review.rating}
        comment = {review.comment}
+       property = {review.property.name}
        />
     ))
     
