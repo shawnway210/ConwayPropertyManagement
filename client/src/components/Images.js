@@ -2,12 +2,15 @@ import React from "react";
 import Image from "./Image";
 
 
-function Images({images}){
+function Images({images, setImages}){
     const mappedImages = images.map(image =>(
         <Image 
         key = {image.id}
         id = {image.id}
-        image = {image.image}
+        image = {image}
+        images = {images}
+        setImages = {setImages}
+        
         />
     ))
 

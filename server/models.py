@@ -24,6 +24,7 @@ class Property(db.Model , SerializerMixin):
     amenities = db.Column(db.String)
     availability = db.Column(db.String)
     image = db.Column(db.String)
+    reservation = db.Column(db.String)
     
     property_users = db.relationship('PropertyUser', back_populates='property', cascade='all, delete-orphan')
 

@@ -10,7 +10,7 @@ function NewPropertyForm({setProperties}){
     const [image, setImage] = useState("")
     const [amenities, setAmenities] = useState("")
     const [availability, setAvailability] = useState("")
-
+    const [reservation, setReservation] = useState("")
     const history = useHistory()
 
     const handleSubmit = (e) => {
@@ -27,16 +27,17 @@ function NewPropertyForm({setProperties}){
                 description,
                 amenities,
                 availability,
-                image
+                image,
+                reservation,
             })
         };
-        fetch("http://127.0.0.1:5555/properties", propertyForm)
+        fetch(`/properties`, propertyForm)
             .then((res) => res.json())
             .then((data) => {
                 setProperties( properties => [...properties, data])
                 history.push('/properties')
             })
-
+            
             setName("");
             setLocation("");
             setDescription("");
@@ -47,7 +48,7 @@ function NewPropertyForm({setProperties}){
 
 
     return (
-        <div>
+        <div className='formContainer'>
             <h3>Add a Property</h3>
 
             <form onSubmit={handleSubmit}>
@@ -83,7 +84,15 @@ function NewPropertyForm({setProperties}){
                 value={image}
                 onChange={(e) => setImage(e.target.value)}
                 />
+                <input
+                label='Reservation'
+                placeholder='Reservation'
+                value={reservation}
+                onChange={(e) => setReservation(e.target.value)}
+                />
+                <button className='add_property'>Add a Property</button>
             </form>
+           
         </div>
     )
 }

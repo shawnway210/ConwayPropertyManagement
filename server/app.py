@@ -18,8 +18,6 @@ from models import  Property, Review, User, Image
 def index():
     return '<h1>Project Server</h1>'
 
-
-
 @app.route('/signup', methods = ['POST'])
 def signup():
     
@@ -127,6 +125,8 @@ def logout():
 
 
 
+
+
 @app.route('/properties', methods=['GET', 'POST'])
 def properties():
     
@@ -142,11 +142,11 @@ def properties():
         )
 
     elif request.method == 'POST':
-        
+
         user = User.query.filter(User.id == session['user_id']).first()
         
         if user.role == 'Admin':
-        
+
             request_json = request.get_json()
 
             name = request_json['name']
@@ -154,7 +154,14 @@ def properties():
             description = request_json['description']
             amenities = request_json['amenities']
             availability = request_json['availability']
+            reservation = request_json['reservation']
+            image = request_json['image']
 
+        
+            db.session.add(property)
+            db.session.commit()
+
+            return property.to_dict(), 201
         try:
             
             property = Property(
@@ -164,6 +171,8 @@ def properties():
                 amenities=amenities,
                 availability=availability,
                 user_id=session['user_id'],
+                reservation=reservation,
+                image=image
             )
 
             db.session.add(property)
@@ -171,37 +180,31 @@ def properties():
 
             return property.to_dict(), 201
         
-        except :
+        except:
 
             return {'error': '422 Unprocessable Entity'} , 422
         
     return response
+        
+
 
         
 
-@app.route('/properties', methods=['PATCH','DELETE'])
+@app.route('/properties', methods=['DELETE'])
 def property_by_id(id):
-
+    property = Property.query.filter(Property.id == id).first()
     user = User.query.filter(User.id == session['user_id']).first()
 
-    if request.method == 'PATCH':
-        if user.role == 'Admin':
-            request_json = request_json()
+    if user.role == "Admin":
+        db.session.delete(property)
+        db.session.commit()
 
-            try:
-
-                for attr in request_json:
-
-                    setattr(property, attr, request_json.get(attr))
-
-                db.session.commit()
-
-                return property.to_dict(), 202
+        response = make_response(
+            {}, 204
+        )
         
-            except:
-
-                return {'error': '422 Unprocessable Entity'}, 422
-
+        return response
+    
     
 
 
@@ -305,9 +308,6 @@ def images():
         return response
     
     elif request.method == ['POST']:
-        user = User.query.filter(User.id == session['user_id']).first()
-
-        if user.role == 'Admin':
 
             request_json = request.get_json()
 
@@ -329,11 +329,7 @@ def images():
 
                 return {'error': '422 Unprocessable Entity'}, 422
         
-        else:
-            
-            response = make_response(
-                {'error':'You are not authorized.'}, 401
-            )
+        
     
     return response
 
@@ -342,13 +338,14 @@ def images():
 @app.route('/images/<int:id>', methods=['DELETE'])
 def images_by_id(id):
     image = Image.query.filter(Image.id == id).first()
+    print(session)
+       
+    image = Image.query.filter(Image.id == id).first()
 
     user = User.query.filter(User.id == session['user_id']).first()
 
     if user.role == 'Admin':
-       
         if image:
-            
             db.session.delete(image)
             db.session.commit()
 
@@ -360,12 +357,8 @@ def images_by_id(id):
             response = make_response(
                 {'error': 'Image not found'}, 404
             )
-
-    else:
-        response = make_response(
-            {'error':'You are not authorized'}, 401
-        )
     return response
+
 
 
 

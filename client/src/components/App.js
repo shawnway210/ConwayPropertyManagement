@@ -6,11 +6,15 @@ import Images from './Images'
 import NewImage from './NewImage'
 import Reviews from './Reviews'
 import NewReviewForm from './NewReviewForm.js'
+import Login from "./Login.js";
+import SignupForm from "./SignUp.js";
 
 function App() {
   const [properties, setProperties] = useState([])
   const [reviews, setReviews] = useState([])
   const [images, setImages] = useState([])
+  const [login, setLogin] = useState([])
+  const [signup, setSignUp] = useState([])
 
   useEffect(() => {
     fetch('/properties')
@@ -33,27 +37,30 @@ function App() {
 
   
   return (
-  <>
+  <> 
+  {/* <Login login = {login} setLogin = {setLogin}/>
+  <SignupForm signup = {signup} setSignUp = {setSignUp}/> */}
   <div className = "siteTitle">
   <header>
     <h1>Conway Property Management</h1>
+   
   </header>
   </div>
       <Switch>
         <Route exact path = '/properties'>
-          <Properties properties = {properties}/>
+          <Properties properties = {properties} setProperties = {setProperties}/>
         </Route>
         <Route exact path = '/newproperty'>
           <NewPropertyForm setProperties = {setProperties}/>
         </Route>
         <Route exact path = '/reviews'>
-          <Reviews reviews = {reviews}/>
+          <Reviews reviews = {reviews} setReviews ={setReviews}/>
         </Route>
         <Route exact path = '/newreview'>
           <NewReviewForm setReviews = {setReviews}/>
         </Route>
         <Route exact path = '/images'>
-          <Images images = {images}/>
+          <Images images = {images} setImages = {setImages}/>
         </Route>
         <Route exact path = '/newimage'>
           <NewImage setImages = {setImages}/>

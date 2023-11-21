@@ -38,6 +38,7 @@ if __name__ == '__main__':
                 amenities = "4 bedrooms One King bedroom, 2 full bedrooms, and one room with two twin beds. All rooms have TV and Roku, except the kids room. 2 full bathrooms, each with a tub Full kitchen with plenty of cookware and serving dishes. Blender, Kuerig, coffee maker, toaster, microwave. Dining table for 6 Nice living room with full ocean view right from the couch. Or the recliner! Decisions, decisions. Roku TV",
                 availability = 'https://www.airbnb.com/calendar/ical/738948885345971986.ics?s=7dc124552a0de7b6db90111cf65ab513',
                 image = 'https://a0.muscache.com/im/pictures/miso/Hosting-738948885345971986/original/1c4bb929-c94e-4296-9a4a-9f3d0778f3d3.jpeg?im_w=1200',
+                reservation = 'https://www.airbnb.com/rooms/738948885345971986?adults=1&children=0&enable_m3_private_room=true&infants=0&pets=0&check_in=2024-01-04&check_out=2024-01-09&source_impression_id=p3_1700483243_yI9KNk%2BHU2WhQZ4H&previous_page_section_name=1000&federated_search_id=e0ab65cc-4d28-4687-831a-648d00b4c9d0',
             ),
 
             Property(
@@ -47,6 +48,7 @@ if __name__ == '__main__':
                 amenities = 'Two Bedrooms, Two Bathrooms, living room, woodstove, a tv in each room, dining space with coffee station, fully equipped kitchen, Deck, Ski room with table and chairs, ski racks, ski in/out entrance from slope.',
                 availability = 'https://www.airbnb.com/calendar/ical/731915024153813910.ics?s=bbaaa95eef6b88b7d6286b82d0745214',
                 image = 'https://a0.muscache.com/im/pictures/miso/Hosting-731915024153813910/original/da29b252-0507-452f-9dca-aec927354da4.jpeg?im_w=1200',
+                reservation = 'https://www.airbnb.com/rooms/731915024153813910?adults=1&children=0&enable_m3_private_room=true&infants=0&pets=0&check_in=2023-12-01&check_out=2023-12-06&source_impression_id=p3_1700243377_rEWPco5lM%2BRc4NqV&previous_page_section_name=1000&federated_search_id=ea2c9ebc-3cc3-46e4-99c8-7291c98783dd',
             ),
         ]
 

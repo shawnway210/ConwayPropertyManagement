@@ -1,8 +1,9 @@
 import React from 'react';
 import Property from './Property'
 
+// import NewPropertyForm from './NewPropertyForm';
 
-function Properties({properties}){
+function Properties({properties, setProperties}){
 console.log(properties)
     const mappedProperties = properties.map(property => (
     
@@ -15,8 +16,10 @@ console.log(properties)
         amenities = {property.amenities}
         availability = {property.availability}
         image = {property.image}
-        images = {property.images}
-        reviews = {property.reviews}
+        reservation = {property.reservation}
+        property = {property}
+        properties = {properties}
+        setProperties={setProperties}
         />
 
     ))

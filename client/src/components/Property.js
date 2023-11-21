@@ -1,24 +1,26 @@
 import React from 'react';
 
 
-function Property({name,location,description,amenities,availability, image, property, mappedProperties, setProperties}){
+
+function Property({name, location, description, amenities, availability, image, properties, setProperties, reservation, id}){
+
     
     function handleDelete(id){
-    const filteredProperties = mappedProperties.filter(property => {
-        
-        return (property.id !== id)
-    })
-    setProperties(filteredProperties)
-    fetch(`/properties/${property.id}`, {
+    
+    fetch(`/properties/${id}`, {
             method: "DELETE"
         })
-        window.location.reload()
+        .then(() => {
+            const filteredProperties = properties.filter(property => {
+        
+            return (property.id !== id)
+        })
+        setProperties(filteredProperties)
+        })
+
     }
-
-
     return (
         <div>
-            <h1>Name:</h1>
             <p>{name}</p>
             <img src = {image} alt = {name}/>
             <h2>Location:</h2>
@@ -27,14 +29,11 @@ function Property({name,location,description,amenities,availability, image, prop
             <p>{description}</p>
             <h2>Amnenties:</h2>
             <p>{amenities}</p>
-            {/* <h3>Reviews</h3>
-            <p>{reviews}</p> */}
             <h3>Availability:</h3>
             <p>{availability}</p>
-            {/* <h3>Images</h3>
-            <p>{images}</p> */}
-
-            <button className='delete_property' onClick={() => handleDelete(property.id)}>Delete</button>
+            <h3>Reservation</h3>
+            <p>{reservation}</p>
+            <button className='delete_property' onClick={() => handleDelete(id)}>Delete</button>
         </div>
     )
 }

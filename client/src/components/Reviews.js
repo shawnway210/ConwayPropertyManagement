@@ -1,7 +1,7 @@
 import React from 'react';
 import Review from './Review';
-
-function Reviews({reviews}){
+// import NewReviewForm from './NewReviewForm';
+function Reviews({reviews, setReviews}){
     const mappedReviews = reviews.map(review => (
        <Review
        key = {review.id}
@@ -9,7 +9,9 @@ function Reviews({reviews}){
        name = {review.name}
        rating = {review.rating}
        comment = {review.comment}
-       property = {review.property.name}
+       property = {review.property}
+       review = {review}
+       setReviews = {setReviews}
        />
     ))
     

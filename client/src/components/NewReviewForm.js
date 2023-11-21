@@ -27,11 +27,11 @@ function NewReviewForm(setReviews){
             }),
         }
 
-        fetch('http://127.0.0.1:5555/reviews', reviewForm)
+        fetch(`/reviews`, reviewForm)
             .then((res) => res.json())
             .then((data) => {
                 setReviews( reviews => [ ...reviews, data ])
-                history.push('/games')
+                history.push('/reviews')
             })
 
             setName("");
@@ -72,6 +72,12 @@ function NewReviewForm(setReviews){
                     value = {property}
                     onChange = {(e) => setProperty(e.target.value)}
                 />
+                <input
+                    label = 'Rating'
+                    placeholder='Rating'
+                    value = {rating}
+                    onChange = {(e) => setRating(e.target.value)}
+                    />
 
                 <button type='submit'>Submit</button>
             </form>

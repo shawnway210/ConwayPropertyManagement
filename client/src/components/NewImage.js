@@ -40,6 +40,7 @@ function NewImage(setImages){
                     />
                     <button type="submit">Submit</button>
             </form>
+            <button className="add_image" onClick={() => handleSubmit(image.id)}>Add a Photo</button>
         </div>
     );
 }
