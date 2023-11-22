@@ -1,13 +1,14 @@
 import React, {useState} from 'react';
 
 
-function Review({ name, rating, comment, property, review, reviews, setReviews, id },){
+function Review({ name, rating, comment, property, reviews, setReviews, id },){
 
     const [showEditForm, setShowEditForm] = useState(false)
     const [editComment, setEditComment] = useState(comment)
     const [editRating, setEditRating] = useState(rating)
-
+    const [review, setReview] = useState('')
     const handleSubmit = (e) =>{
+        
         e.preventDefault();
 
         const updatedReview = {
@@ -19,8 +20,9 @@ function Review({ name, rating, comment, property, review, reviews, setReviews, 
                 comment : editComment,
                 rating : editRating
             }),
+            
         };
-        
+        console.log(updatedReview)
         fetch(`/reviews/${id}`, updatedReview)
             .then((res) => res.json())
             .then(data => {
@@ -31,9 +33,10 @@ function Review({ name, rating, comment, property, review, reviews, setReviews, 
                         return( review)
                     }
                 })
-                setReviews(updatedReviews)
+                setReview(updatedReviews)
                 setShowEditForm(false)
             })
+            console.log(updatedReview)
     }
     
     function handleDelete(id){
@@ -54,7 +57,7 @@ function Review({ name, rating, comment, property, review, reviews, setReviews, 
         return (
             <div>
                 <h3>Edit</h3>
-                <form onSubmit = {handleSubmit}>
+                <form onSubmit = {handleSubmit} review={review}>
                     <input
                     label='Comment'
                     placeholder='Comment'

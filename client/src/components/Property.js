@@ -21,8 +21,8 @@ function Property({name, location, description, amenities, availability, image, 
     }
     return (
         <div>
-            <p>{name}</p>
-            <img src = {image} alt = {name}/>
+            <p className='property-name'>{name}</p>
+            <img className='property-img' src = {image} alt = {name}/>
             <h2>Location:</h2>
             <p>{location}</p>
             <h2>Description:</h2>

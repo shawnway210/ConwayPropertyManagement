@@ -5,15 +5,15 @@ import * as yup from "yup"
 export const SignupForm = (setSignUp) => {
     const [users, setUsers] = useState([{}])
     const [refreshPage, setRefreshPage] = useState(false)
-
+    console.lo(users)
 
     useEffect(() =>{
         console.log("Hey")
-        fetch("/customers")
+        fetch("/users")
             .then(res => res.json())
             .then((data) => {
                 setUsers(data)
-                console.log(users)
+                
             })
     }, [refreshPage])
 
@@ -29,7 +29,7 @@ export const SignupForm = (setSignUp) => {
         },
         validationSchema: formSchema,
         onSubmit: (values, {resetForm}) => {
-            fetch("/customers", {
+            fetch("/users", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -39,7 +39,9 @@ export const SignupForm = (setSignUp) => {
                 if(res.status === 200) {
                     setRefreshPage(!refreshPage);
                     resetForm()
+                console.log(values)
                 }
+
             })
         }
     })
@@ -47,7 +49,7 @@ export const SignupForm = (setSignUp) => {
    
     return (
         <div>
-            <form onSubmit={formik.handleSubmit} style={{margin: "30px"}}>
+            <form onSubmit={formik.handleSubmit} setSignUp={setSignUp} style={{margin: "30px"}}>
                 <label htmlFor='signup'>SignUp</label>
                 <br />
                 <br />

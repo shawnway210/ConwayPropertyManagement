@@ -118,13 +118,15 @@ class User(db.Model, SerializerMixin):
     
     @password_hash.setter
     def password_hash(self, password):
-        # generates hashed version of password
+        print(password.encode('utf-8'))
         new_hashed_password = bcrypt.generate_password_hash(password.encode('utf-8'))
 
         self._password_hash = new_hashed_password.decode('utf-8')
 
     def authenticate(self, password):
-        # check if inputted password matches user's password
+        # check if inputed password matches user's password
+        print(password)
+        print(self._password_hash)
         return bcrypt.check_password_hash(self._password_hash, password.encode('utf-8'))
 
 
@@ -146,7 +148,7 @@ class User(db.Model, SerializerMixin):
         else:
             raise ValueError("Invalid password! Password should be at least 8 characters long and contain at least one lowercase letter, one digit, and one special character (@ $ ! % * ? &)")
         
-    
+
     
 class Image(db.Model, SerializerMixin):
     __tablename__='images'

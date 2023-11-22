@@ -9,12 +9,13 @@ function Reviews({reviews, setReviews}){
        name = {review.name}
        rating = {review.rating}
        comment = {review.comment}
-       property = {review.property}
+       property = {review.property.name}
        review = {review}
        setReviews = {setReviews}
        />
+        
     ))
-    
+    console.log(mappedReviews)
     return (
         <div>
             {mappedReviews}

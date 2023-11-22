@@ -86,7 +86,7 @@ def login():
     user = User.query.filter(User.username == username).first()
 
     if user:
-       
+        
         is_authenticated = user.authenticate(password)
 
         if is_authenticated:
@@ -147,42 +147,26 @@ def properties():
         
         if user.role == 'Admin':
 
-            request_json = request.get_json()
+            form_data = request.get_json()
 
-            name = request_json['name']
-            location = request_json['location']
-            description = request_json['description']
-            amenities = request_json['amenities']
-            availability = request_json['availability']
-            reservation = request_json['reservation']
-            image = request_json['image']
+            new_property= Property(
+                name = form_data['name'],
+                location = form_data['location'],
+                description = form_data['description'],
+                amenities = form_data['amenities'],
+                availability = form_data['availability'],
+                image = ['image'],
+                reservation = ['reservation']
 
-        
-            db.session.add(property)
-            db.session.commit()
-
-            return property.to_dict(), 201
-        try:
-            
-            property = Property(
-                name=name,
-                location=location,
-                description=description,
-                amenities=amenities,
-                availability=availability,
-                user_id=session['user_id'],
-                reservation=reservation,
-                image=image
             )
-
-            db.session.add(property)
+        
+            db.session.add(new_property)
             db.session.commit()
 
-            return property.to_dict(), 201
+        return new_property.to_dict(), 201
         
-        except:
-
-            return {'error': '422 Unprocessable Entity'} , 422
+            
+        
         
     return response
         
@@ -190,7 +174,7 @@ def properties():
 
         
 
-@app.route('/properties', methods=['DELETE'])
+@app.route('/properties/<int:id>', methods=['DELETE'])
 def property_by_id(id):
     property = Property.query.filter(Property.id == id).first()
     user = User.query.filter(User.id == session['user_id']).first()
@@ -203,7 +187,7 @@ def property_by_id(id):
             {}, 204
         )
         
-        return response
+    return response
     
     
 
@@ -358,6 +342,9 @@ def images_by_id(id):
                 {'error': 'Image not found'}, 404
             )
     return response
+
+
+
 
 
 

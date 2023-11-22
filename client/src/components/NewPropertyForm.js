@@ -3,6 +3,7 @@ import {useHistory} from "react-router-dom"
 
 
 function NewPropertyForm({setProperties}){
+   
 
     const [name, setName] = useState("")
     const [location, setLocation] = useState("")
@@ -16,8 +17,9 @@ function NewPropertyForm({setProperties}){
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        const propertyForm = {
-            method: "POST",
+
+    const propertyForm = {
+        method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
@@ -36,7 +38,7 @@ function NewPropertyForm({setProperties}){
             .then((data) => {
                 setProperties( properties => [...properties, data])
                 history.push('/properties')
-            })
+})
             
             setName("");
             setLocation("");
@@ -44,7 +46,7 @@ function NewPropertyForm({setProperties}){
             setAmenities("");
             setAvailability("");
             setImage("");
-    }
+        }
 
 
     return (
@@ -95,5 +97,6 @@ function NewPropertyForm({setProperties}){
            
         </div>
     )
+    
 }
 export default NewPropertyForm

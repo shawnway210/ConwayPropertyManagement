@@ -18,7 +18,7 @@ function NewImage(setImages){
                 image
             })
         }
-        fetch("http://127.0.0.1:5555/images", newImage)
+        fetch("/images", newImage)
             .then((res) => res.json())
             .then((data) => {
                 setImages(images => [...images.data])

@@ -7,6 +7,7 @@ import NewImage from './NewImage'
 import Reviews from './Reviews'
 import NewReviewForm from './NewReviewForm.js'
 import Login from "./Login.js";
+import NavBar from "./NavBar.js";
 import SignupForm from "./SignUp.js";
 
 function App() {
@@ -15,7 +16,8 @@ function App() {
   const [images, setImages] = useState([])
   const [login, setLogin] = useState([])
   const [signup, setSignUp] = useState([])
-
+  const [logout, setLogout] = useState([]) 
+  
   useEffect(() => {
     fetch('/properties')
     .then((res) => res.json())
@@ -34,12 +36,12 @@ function App() {
     .then((data) => setImages(data))
   }, [])
   
-
+console.log(images)
   
   return (
   <> 
-  {/* <Login login = {login} setLogin = {setLogin}/>
-  <SignupForm signup = {signup} setSignUp = {setSignUp}/> */}
+  
+  
   <div className = "siteTitle">
   <header>
     <h1>Conway Property Management</h1>
@@ -47,6 +49,15 @@ function App() {
   </header>
   </div>
       <Switch>
+        <Route exact path= '/login'>
+          <Login login = {login} setLogin = {setLogin}/>
+        </Route>
+        <Route exact path = '/signup'>
+          <SignupForm signup = {signup} setSignUp = {setSignUp}/>
+        </Route>
+        <Route exact path = '/'>
+          <NavBar logout = {logout} setLogout = {setLogout}/>
+        </Route>
         <Route exact path = '/properties'>
           <Properties properties = {properties} setProperties = {setProperties}/>
         </Route>
@@ -54,7 +65,7 @@ function App() {
           <NewPropertyForm setProperties = {setProperties}/>
         </Route>
         <Route exact path = '/reviews'>
-          <Reviews reviews = {reviews} setReviews ={setReviews}/>
+          <Reviews reviews = {reviews} />
         </Route>
         <Route exact path = '/newreview'>
           <NewReviewForm setReviews = {setReviews}/>
@@ -71,3 +82,7 @@ function App() {
 }
 
 export default App;
+        
+
+       
+        

@@ -383,27 +383,31 @@ if __name__ == '__main__':
 
         db.session.add_all(reviews)
         db.session.commit()
-
-
-        users = [
-            User(
+        u1=   User(
                 username = 'Porter13',
-                _password_hash = 'SkyWalker2015*',
                 role = 'Admin',
-            ),
+            )
+        u1.password_hash = 'SkyWalker2015!'
+        
+        
+            
 
-            User(
+        u2=   User(
                 username = 'TooRude420',
-                _password_hash = 'Bacio210!',
+               
                 role = 'visitor',
-            ),
+            )
+        u2.password_hash = 'Bacio210!'
+      
 
-            User(
+        u3=   User(
                 username = 'SugarBritches3',
-                _password_hash = 'Blaah21$',
+                
                 role = 'visitor'
-            ),
-        ]
+            )
+        u3.password_hash = 'Blaah21$'
+
+        users = [u1, u2, u3]
             
 
         db.session.add_all(users)
