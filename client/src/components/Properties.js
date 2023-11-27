@@ -3,7 +3,7 @@ import Property from './Property'
 
 // import NewPropertyForm from './NewPropertyForm';
 
-function Properties({properties, setProperties}){
+function Properties({properties, setProperties, setImages, setReviews}){
 console.log(properties)
     const mappedProperties = properties.map(property => (
     
@@ -20,6 +20,8 @@ console.log(properties)
         property = {property}
         properties = {properties}
         setProperties={setProperties}
+        setImages={setImages}
+        setReviews={setReviews}
         />
 
     ))

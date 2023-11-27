@@ -1,8 +1,8 @@
 import React from "react";
 import Image from "./Image";
-console.log("here")
 
-function Images({images, setImages}){console.log(images)
+
+function Images({images, setImages}){
     const mappedImages = images.map(image =>(
         
         <Image 
@@ -13,7 +13,7 @@ function Images({images, setImages}){console.log(images)
         setImages = {setImages}
         
         />
-    
+       
     ))
 
     return (

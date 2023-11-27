@@ -36,7 +36,7 @@ function App() {
     .then((data) => setImages(data))
   }, [])
   
-console.log(images)
+
   
   return (
   <> 
@@ -48,6 +48,7 @@ console.log(images)
    
   </header>
   </div>
+  <NavBar/>
       <Switch>
         <Route exact path= '/login'>
           <Login login = {login} setLogin = {setLogin}/>
@@ -59,13 +60,13 @@ console.log(images)
           <NavBar logout = {logout} setLogout = {setLogout}/>
         </Route>
         <Route exact path = '/properties'>
-          <Properties properties = {properties} setProperties = {setProperties}/>
+          <Properties properties = {properties} setProperties = {setProperties} setImages={setImages} setReviews={setReviews}/>
         </Route>
         <Route exact path = '/newproperty'>
           <NewPropertyForm setProperties = {setProperties}/>
         </Route>
         <Route exact path = '/reviews'>
-          <Reviews reviews = {reviews} />
+          <Reviews reviews = {reviews} setReviews={setReviews} />
         </Route>
         <Route exact path = '/newreview'>
           <NewReviewForm setReviews = {setReviews}/>
@@ -77,6 +78,7 @@ console.log(images)
           <NewImage setImages = {setImages}/>
         </Route>
       </Switch>
+    
   </>
   );
 }

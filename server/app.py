@@ -123,6 +123,18 @@ def logout():
 
     return response
 
+@app.route('/users', methods=['POST'])
+def users():
+    form_data = request.get_json()
+
+    new_user=User(
+        username = form_data['username'],
+        _password_hash = form_data['password']
+    )
+    db.session.add(new_user)
+    db.session.commit()
+
+    return new_user.to_dict(), 201
 
 
 
@@ -155,8 +167,8 @@ def properties():
                 description = form_data['description'],
                 amenities = form_data['amenities'],
                 availability = form_data['availability'],
-                image = ['image'],
-                reservation = ['reservation']
+                image = form_data['image'],
+                reservation = form_data['reservation']
 
             )
         
@@ -220,7 +232,8 @@ def reviews():
                 email = form_data['email'],
                 rating = form_data['rating'],
                 comment = form_data['comment'],
-                property_id = form_data['property_id']
+                property_id = form_data['property_id'],
+                
             )
 
             db.session.add(new_review_obj)
@@ -279,7 +292,8 @@ def review_by_id(id):
 
 @app.route('/images', methods=['GET', 'POST'])
 def images():
-    
+
+    print('hey')
     if request.method == 'GET':
         images = Image.query.all()
 
@@ -289,34 +303,30 @@ def images():
             images_dict,
             200
         )
-        return response
+        
     
-    elif request.method == ['POST']:
+    elif request.method == 'POST':
 
-            request_json = request.get_json()
+            form_data = request.get_json()
 
-            image = request_json['image']
-
-            try:
-
-                new_image = Image(
-                    image=image,
-                    user_id=session['user_id'],
-                )
-
-                db.session.add(new_image)
-                db.session.commit
-
-                return new_image.to_dict(), 201
+           
             
-            except:
 
-                return {'error': '422 Unprocessable Entity'}, 422
-        
-        
-    
+            new_image = Image(
+                    image= form_data['image'],
+                    
+                )
+                
+            db.session.add(new_image)
+            db.session.commit()
+                
+            response = make_response(
+                    new_image.to_dict(), 201
+                )
+                
     return response
-
+    
+    
 
 
 @app.route('/images/<int:id>', methods=['DELETE'])

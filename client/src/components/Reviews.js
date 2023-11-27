@@ -11,7 +11,8 @@ function Reviews({reviews, setReviews}){
        comment = {review.comment}
        property = {review.property.name}
        review = {review}
-       setReviews = {setReviews}
+       reviews = {reviews}
+       setReviews= {setReviews}
        />
         
     ))

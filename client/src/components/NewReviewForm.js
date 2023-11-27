@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 
-function NewReviewForm(setReviews){
+function NewReviewForm({setReviews}){
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [rating, setRating] = useState("");
@@ -13,8 +13,8 @@ function NewReviewForm(setReviews){
     const handleSubmit = (e) => {
         e.preventDefault()
 
-        const reviewForm = {
-            method: "POST",
+    const reviewForm = {
+        method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
@@ -24,8 +24,8 @@ function NewReviewForm(setReviews){
                 email,
                 comment,
                 rating: parseInt(rating),
-            }),
-        }
+            })
+        };
 
         fetch(`/reviews`, reviewForm)
             .then((res) => res.json())
@@ -39,7 +39,7 @@ function NewReviewForm(setReviews){
             setEmail("");
             setRating("");
             setComment("");
-    };
+    }
 
 
 
@@ -48,12 +48,13 @@ function NewReviewForm(setReviews){
             <h3>Please Add A Review</h3>
 
 
-            <form onSubmit={handleSubmit}
+            <form onSubmit={handleSubmit}>
+                <input
                 label = 'Name'
                 placeholder = 'Name'
                 value = {name}
                 onChange = {(e) => setName(e.target.value)}
-                >
+                />
                 <input
                     label = 'Email'
                     placeholder = 'Email'
@@ -79,7 +80,7 @@ function NewReviewForm(setReviews){
                     onChange = {(e) => setRating(e.target.value)}
                     />
 
-                <button type='submit'>Submit</button>
+                <button className='add_review'>Add Review</button>
             </form>
         </div>   
         

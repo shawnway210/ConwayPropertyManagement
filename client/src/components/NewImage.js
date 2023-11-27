@@ -1,30 +1,32 @@
 import React, {useState} from "react";
 import { useHistory } from "react-router-dom/cjs/react-router-dom";
 
-function NewImage(setImages){
+function NewImage({setImages}){
+    
     const [image, setImage] = useState("")
-
+    
     const history = useHistory()
 
     const handleSubmit = (e) => {
-        e.preventDefault()
+        e.preventDefault();
 
         const newImage = {
             method: "POST",
-            headers: {
+                headers: {
                 "Content-Type": "application/json",    
-            },
-            body: JSON.stringify({
-                image
-            })
-        }
-        fetch("/images", newImage)
-            .then((res) => res.json())
-            .then((data) => {
-                setImages(images => [...images.data])
-                history.push('/images')
-            })
+                },
+                body: JSON.stringify({
+                    image
+                })
+            }
+            fetch("/images", newImage)
+                .then((res) => res.json())
+                .then((data) => {
+                    setImages(images => [...images,data])
+                    history.push('/images')
+        })  
         setImage("");
+        
     }
 
     return (
@@ -38,9 +40,8 @@ function NewImage(setImages){
                     value={image}
                     onChange={(e) => setImage(e.target.value)}
                     />
-                    <button type="submit">Submit</button>
+                    <button className="add_image">Add Photo</button>
             </form>
-            <button className="add_image" onClick={() => handleSubmit(image.id)}>Add a Photo</button>
         </div>
     );
 }

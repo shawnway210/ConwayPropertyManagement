@@ -5,7 +5,7 @@ import * as yup from "yup"
 export const SignupForm = (setSignUp) => {
     const [users, setUsers] = useState([{}])
     const [refreshPage, setRefreshPage] = useState(false)
-    console.lo(users)
+    
 
     useEffect(() =>{
         console.log("Hey")
@@ -19,7 +19,7 @@ export const SignupForm = (setSignUp) => {
 
     const formSchema = yup.object().shape({
         username: yup.string().required("Invalid Username"),
-        password: yup.string().required("Invalid password").required("Must be a password"),
+        password: yup.string().required("Invalid password"),
       });
     console.log(formSchema)
     const formik = useFormik({
@@ -41,7 +41,7 @@ export const SignupForm = (setSignUp) => {
                     resetForm()
                 console.log(values)
                 }
-
+                console.log(values)
             })
         }
     })

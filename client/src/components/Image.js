@@ -10,12 +10,11 @@ console.log(image)
         })
         .then(()=> {
             const filteredImages = images.filter(image =>{
-            console.log(image)
-            console.log(id)
+            
             return (image.id !== id)
         })
         setImages(filteredImages)
-        console.log(filteredImages)
+    
         })
     
         
