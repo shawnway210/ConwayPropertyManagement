@@ -3,24 +3,25 @@ import { useHistory } from 'react-router-dom';
 
 
 
+
+
 function Property({name, location, description, amenities, availability, image, properties, setProperties, reservation, setImages, setReviews, setReview, id}){
 
     const history = useHistory();
 
     const handleClick1 =() => {
-        history.push("/images")
+        history.push(`/properties/${id}/images`)
     }
 
     const handleClick2 =() => {
-        history.push("/reviews")
+        history.push(`/properties/${id}/reviews`)
     }
 
     const handleClick3 =() => {
         history.push("/newreview")
     }
 
-
-
+    
     function handleDelete(id){
     
     fetch(`/properties/${id}`, {

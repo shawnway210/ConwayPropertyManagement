@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import {useHistory} from "react-router-dom"
-
+import { DarkModeContext } from './DarkModeContext';
 
 function NewPropertyForm({setProperties}){
-   
+
+   const { isDarkMode } = useContext(DarkModeContext)
 
     const [name, setName] = useState("")
     const [location, setLocation] = useState("")
@@ -50,7 +51,7 @@ function NewPropertyForm({setProperties}){
 
 
     return (
-        <div className='formContainer'>
+        <div className={isDarkMode ? 'dark' : 'light'}>
             <h3>Add a Property</h3>
 
             <form onSubmit={handleSubmit}>

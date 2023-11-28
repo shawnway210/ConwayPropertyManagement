@@ -1,6 +1,6 @@
 import React from "react";
 
-function NavBar({setLogout}){
+function Logout({setLogout}){
     function handleLogout(){
         fetch("/logout", {
             method: "DELETE",
@@ -8,7 +8,7 @@ function NavBar({setLogout}){
     }
     return(
         <header>
-            <button onClick={handleLogout}/>
+            <button onClick={handleLogout} type="button">Logout</button>
         </header>
     )
 }

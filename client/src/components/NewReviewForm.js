@@ -1,8 +1,10 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-
+import { DarkModeContext } from './DarkModeContext';
 
 function NewReviewForm({setReviews}){
+
+    const { isDarkMode } = useContext(DarkModeContext)
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [rating, setRating] = useState("");
@@ -44,7 +46,7 @@ function NewReviewForm({setReviews}){
 
 
     return (
-        <div className='formContainer'>
+        <div className={isDarkMode ? 'dark' : 'light'}>
             <h3>Please Add A Review</h3>
 
 

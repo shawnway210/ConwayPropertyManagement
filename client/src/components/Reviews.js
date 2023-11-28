@@ -1,8 +1,11 @@
 import React from 'react';
 import Review from './Review';
+import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
 // import NewReviewForm from './NewReviewForm';
 function Reviews({reviews, setReviews}){
-    const mappedReviews = reviews.map(review => (
+    let {id} = useParams()
+    const propertyReviews = reviews.filter(review => review.property_id === parseInt(id))
+    const mappedReviews = propertyReviews.map(review => (
        <Review
        key = {review.id}
        id = {review.id}

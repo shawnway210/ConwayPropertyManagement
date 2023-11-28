@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
-import SignupForm from './SignUp';
 
 
-function Login({setLogin, setSignUp}){
+
+function Login({setLogin}){
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     
@@ -21,7 +21,6 @@ function Login({setLogin, setSignUp}){
     .then(res => res.json())
     .then(user => { setLogin(user)})  //set user in state
     }
-    if(setLogin){
     return (
         <form onSubmit={handleLogin}>
             <label>
@@ -45,13 +44,7 @@ function Login({setLogin, setSignUp}){
             <button type='submit'>Log In</button>
         </form>
     )
-    }else{
-    return(
-        <div>
-         <button type='signup' setSignUp={setSignUp} >Signup</button>
-         <SignupForm/>
-        </div>
- )}
+    
 }   
 
 export default Login

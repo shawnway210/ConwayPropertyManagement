@@ -1,10 +1,16 @@
 import React from 'react';
 import Property from './Property'
-
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 // import NewPropertyForm from './NewPropertyForm';
 
 function Properties({properties, setProperties, setImages, setReviews}){
-console.log(properties)
+
+    const history = useHistory()
+
+    const handleClick = () => {
+        history.push('/newproperty')
+    }
+    
     const mappedProperties = properties.map(property => (
     
         <Property
@@ -29,6 +35,7 @@ console.log(properties)
     return (
         <div>
             {mappedProperties}
+            <button onClick={handleClick} type="button">Add A Property</button>
         </div>
     )
 }

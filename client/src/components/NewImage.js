@@ -1,7 +1,10 @@
-import React, {useState} from "react";
+import React, {useState, useContext} from "react";
 import { useHistory } from "react-router-dom/cjs/react-router-dom";
+import { DarkModeContext } from "./DarkModeContext";
 
 function NewImage({setImages}){
+
+    const { isDarkMode } = useContext(DarkModeContext)
     
     const [image, setImage] = useState("")
     
@@ -30,7 +33,7 @@ function NewImage({setImages}){
     }
 
     return (
-        <div className="formContainer">
+        <div className={isDarkMode ? 'dark' : 'light'}>
             <h3>Add a Photo</h3>
 
             <form onSubmit={handleSubmit}>

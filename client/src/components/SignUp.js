@@ -2,7 +2,7 @@ import React, { useEffect, useState} from "react"
 import { useFormik } from "formik"
 import * as yup from "yup"
 
-export const SignupForm = (setSignUp) => {
+export const SignupForm = () => {
     const [users, setUsers] = useState([{}])
     const [refreshPage, setRefreshPage] = useState(false)
     
@@ -49,7 +49,7 @@ export const SignupForm = (setSignUp) => {
    
     return (
         <div>
-            <form onSubmit={formik.handleSubmit} setSignUp={setSignUp} style={{margin: "30px"}}>
+            <form onSubmit={formik.handleSubmit}  style={{margin: "30px"}}>
                 <label htmlFor='signup'>SignUp</label>
                 <br />
                 <br />
@@ -65,28 +65,28 @@ export const SignupForm = (setSignUp) => {
                     id="password"
                     name="password"
                     onChange={formik.handleChange}
-                    value={formik.values.password}
+                    value={formik.values._password_hash}
                 />
                 <p style={{ color: "red"}}> {formik.errors.username}</p>
                 <p style={{ color: "red"}}> {formik.errors.password}</p>
                 <button type="submit">Submit</button>
             </form>
-            <table style={{ padding: "15px"}}> 
+            {/* <table style={{ padding: "15px"}}> 
                 <tbody>
                     {users.length === 0 ? (
                         <p>Loading</p>
                     ) : (
-                        users.map((user, i) => (
+                        users.map((user, id) => (
                             <>
-                                <tr key={i}>
+                                <tr key={user.id}>
                                     <td>{user.username}</td>
-                                    <td>{user.password}</td>
+                                    <td>{user._password_hash}</td>
                                 </tr>
                             </>
                         ))
                     )}
                 </tbody>
-            </table> 
+            </table>  */}
         </div>
     )
 }

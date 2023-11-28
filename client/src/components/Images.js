@@ -1,9 +1,17 @@
 import React from "react";
 import Image from "./Image";
-
+import { useHistory, useParams } from "react-router-dom/cjs/react-router-dom.min";
 
 function Images({images, setImages}){
-    const mappedImages = images.map(image =>(
+    const {id} = useParams()
+console.log(images)
+    const history = useHistory()
+
+    const handleClick =() => {
+        history.push('/newimage')
+    }
+    const propertyImages = images.filter(image => image.property_id === parseInt(id))
+    const mappedImages = propertyImages.map(image =>(
         
         <Image 
         key = {image.id}
@@ -19,6 +27,7 @@ function Images({images, setImages}){
     return (
         <div>
             {mappedImages}
+            <button onClick={handleClick} type="button">Add Image</button>
         </div>
     )
 }

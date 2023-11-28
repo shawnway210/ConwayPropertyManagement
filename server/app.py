@@ -123,18 +123,36 @@ def logout():
 
     return response
 
-@app.route('/users', methods=['POST'])
+@app.route('/users', methods=['GET','POST'])
 def users():
-    form_data = request.get_json()
 
-    new_user=User(
-        username = form_data['username'],
-        _password_hash = form_data['password']
-    )
-    db.session.add(new_user)
-    db.session.commit()
+    if request.method == 'GET':
 
-    return new_user.to_dict(), 201
+        users = User.query.all()
+
+        users_dict = [user.to_dict() for user in users]
+
+        response = make_response(
+            users_dict, 200
+        )
+        
+    
+    elif request.method == 'POST':
+
+        form_data = request.get_json()
+
+        new_user=User(
+            username = form_data['username'],
+            _password_hash = form_data['password']
+        )
+        db.session.add(new_user)
+        db.session.commit()
+
+        return new_user.to_dict(), 201
+    
+    return response
+    
+    
 
 
 

@@ -2,7 +2,9 @@ import React from "react";
 
 
 function Image({images, image, id, setImages}){
-console.log(image)
+
+   
+
     function handleDelete(id){
     
         fetch(`/images/${id}`,{

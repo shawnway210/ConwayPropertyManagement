@@ -9,13 +9,18 @@ import NewReviewForm from './NewReviewForm.js'
 import Login from "./Login.js";
 import NavBar from "./NavBar.js";
 import SignupForm from "./SignUp.js";
+import Logout from "./Logout.js";
+import { DarkModeProvider } from "./DarkModeContext.js";
 
 function App() {
+
+  
+
   const [properties, setProperties] = useState([])
   const [reviews, setReviews] = useState([])
   const [images, setImages] = useState([])
   const [login, setLogin] = useState([])
-  const [signup, setSignUp] = useState([])
+  const [signup, setSignup] = useState([])
   const [logout, setLogout] = useState([]) 
   
   useEffect(() => {
@@ -39,9 +44,7 @@ function App() {
 
   
   return (
-  <> 
-  
-  
+  <DarkModeProvider>
   <div className = "siteTitle">
   <header>
     <h1>Conway Property Management</h1>
@@ -54,10 +57,10 @@ function App() {
           <Login login = {login} setLogin = {setLogin}/>
         </Route>
         <Route exact path = '/signup'>
-          <SignupForm signup = {signup} setSignUp = {setSignUp}/>
+          <SignupForm signup = {signup} setSignUp = {setSignup}/>
         </Route>
-        <Route exact path = '/'>
-          <NavBar logout = {logout} setLogout = {setLogout}/>
+        <Route exact path = '/logout'>
+          <Logout logout = {logout} setLogout = {setLogout}/>
         </Route>
         <Route exact path = '/properties'>
           <Properties properties = {properties} setProperties = {setProperties} setImages={setImages} setReviews={setReviews}/>
@@ -65,21 +68,21 @@ function App() {
         <Route exact path = '/newproperty'>
           <NewPropertyForm setProperties = {setProperties}/>
         </Route>
-        <Route exact path = '/reviews'>
+        <Route exact path = '/properties/:id/reviews'>
           <Reviews reviews = {reviews} setReviews={setReviews} />
         </Route>
         <Route exact path = '/newreview'>
           <NewReviewForm setReviews = {setReviews}/>
         </Route>
-        <Route exact path = '/images'>
+        <Route exact path = '/properties/:id/images'>
           <Images images = {images} setImages = {setImages}/>
         </Route>
         <Route exact path = '/newimage'>
           <NewImage setImages = {setImages}/>
         </Route>
       </Switch>
-    
-  </>
+  </DarkModeProvider>
+  
   );
 }
 
