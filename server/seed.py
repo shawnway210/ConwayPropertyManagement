@@ -42,7 +42,7 @@ if __name__ == '__main__':
             ),
 
             Property(
-                name = 'Slope Slider #6',
+                name = 'Slopesider 6',
                 location = 'Sugar Mountain, North Carolina',
                 description = 'With the ski slope out the front door it does not get much better than this. With ski-in /ski-out access this original Sugar Mountain slopesider cabin is a mountain dream escape. Watch the action on the slopes from the porch or inside with the floor to ceiling windows. There is even a cozy wood burning fire place. In the fall this is the perfect retreat to take in the autumnal colors while you spend your days sightseeing along the parkway. This circular treetop cabin has floor to ceiling windows and an open floorplan in the kitchen, living and dining room making you feel as if you are in a tree-top hideaway. There is a wood burning fireplace that is the heart of the home and a spiral staircase (and baby gate!) leading to the lower level with the laundry room, mudroom and ski slope access.  When there is snow on the roads you will need a 4WD vehicle to access the property.',
                 amenities = 'Two Bedrooms, Two Bathrooms, living room, woodstove, a tv in each room, dining space with coffee station, fully equipped kitchen, Deck, Ski room with table and chairs, ski racks, ski in/out entrance from slope.',

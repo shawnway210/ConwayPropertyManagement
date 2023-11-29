@@ -52,9 +52,10 @@ function NewPropertyForm({setProperties}){
 
     return (
         <div className={isDarkMode ? 'dark' : 'light'}>
-            <h3>Add a Property</h3>
+            
 
-            <form onSubmit={handleSubmit}>
+            <form className="form-container" onSubmit={handleSubmit}>
+                <h3>Add a Property</h3>
                 <input
                 label='Name'
                 placeholder='Name'

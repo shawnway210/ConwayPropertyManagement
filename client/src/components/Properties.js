@@ -20,7 +20,6 @@ function Properties({properties, setProperties, setImages, setReviews}){
         location = {property.location}
         description = {property.description}
         amenities = {property.amenities}
-        availability = {property.availability}
         image = {property.image}
         reservation = {property.reservation}
         property = {property}

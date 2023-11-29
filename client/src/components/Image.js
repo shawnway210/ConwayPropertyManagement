@@ -23,10 +23,12 @@ function Image({images, image, id, setImages}){
     }    
 
     return(
+        
         <div className = 'image-card'>
             <img className = 'image-img' src = {image} alt = {id}/>
             <button className="delete_image" onClick={() => handleDelete(id)}>Delete</button>
         </div>
-    )
+       
+    )   
 }
 export default Image

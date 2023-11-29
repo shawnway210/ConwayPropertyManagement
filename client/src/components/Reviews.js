@@ -21,7 +21,7 @@ function Reviews({reviews, setReviews}){
     ))
     console.log(mappedReviews)
     return (
-        <div>
+        <div className='review-container'>
             {mappedReviews}
         </div>
     )

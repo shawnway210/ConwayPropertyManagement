@@ -6,12 +6,12 @@ function NavBar(){
 
     return (
         <div>
-            <header>
-                <NavLink to="/signup">  Signup  </NavLink>
-                <NavLink to="/login">  Login  </NavLink>
-                <NavLink to="/logout">  Logout  </NavLink>
-                <NavLink to="/properties">  Properties  </NavLink> 
-            </header>
+           <nav className="navbar">
+                <NavLink className="navbar-item" to="/signup">  Signup  </NavLink>
+                <NavLink className="navbar-item" to="/login">  Login  </NavLink>
+                <NavLink className="navbar-item" to="/logout">  Logout  </NavLink>
+                <NavLink className="navbar-item" to="/properties">  Properties  </NavLink> 
+            </nav>
         </div> 
 
         

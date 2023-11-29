@@ -11,6 +11,9 @@ import NavBar from "./NavBar.js";
 import SignupForm from "./SignUp.js";
 import Logout from "./Logout.js";
 import { DarkModeProvider } from "./DarkModeContext.js";
+import SiteTitle from "../SiteTitle.js";
+import "../index.css";
+
 
 function App() {
 
@@ -44,33 +47,35 @@ function App() {
 
   
   return (
-  <DarkModeProvider>
-  <div className = "siteTitle">
-  <header>
-    <h1>Conway Property Management</h1>
-   
-  </header>
-  </div>
-  <NavBar/>
-      <Switch>
-        <Route exact path= '/login'>
-          <Login login = {login} setLogin = {setLogin}/>
-        </Route>
-        <Route exact path = '/signup'>
-          <SignupForm signup = {signup} setSignUp = {setSignup}/>
-        </Route>
-        <Route exact path = '/logout'>
-          <Logout logout = {logout} setLogout = {setLogout}/>
-        </Route>
-        <Route exact path = '/properties'>
-          <Properties properties = {properties} setProperties = {setProperties} setImages={setImages} setReviews={setReviews}/>
-        </Route>
-        <Route exact path = '/newproperty'>
-          <NewPropertyForm setProperties = {setProperties}/>
-        </Route>
-        <Route exact path = '/properties/:id/reviews'>
-          <Reviews reviews = {reviews} setReviews={setReviews} />
-        </Route>
+    <DarkModeProvider className='.dark'>
+    <div class="background-container">
+      <div class="background-image"></div>
+    </div>
+  
+  <Switch>
+    <Route exact path='/'>
+    
+      <SiteTitle/> 
+      <NavBar/>
+    </Route>
+    <Route exact path= '/login'>
+      <Login login = {login} setLogin = {setLogin}/>
+  </Route>
+  <Route exact path = '/signup'>
+      <SignupForm signup = {signup} setSignUp = {setSignup}/>
+  </Route>
+  <Route exact path = '/logout'>
+      <Logout logout = {logout} setLogout = {setLogout}/>
+  </Route>
+  <Route exact path = '/properties'>
+      <Properties properties = {properties} setProperties = {setProperties} setImages={setImages} setReviews={setReviews}/>
+  </Route>
+  <Route exact path = '/newproperty'>
+      <NewPropertyForm setProperties = {setProperties}/>
+  </Route>
+  <Route exact path = '/properties/:id/reviews'>
+      <Reviews reviews = {reviews} setReviews={setReviews} />
+  </Route>
         <Route exact path = '/newreview'>
           <NewReviewForm setReviews = {setReviews}/>
         </Route>

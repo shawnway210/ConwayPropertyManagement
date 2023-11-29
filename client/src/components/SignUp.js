@@ -60,7 +60,7 @@ export const SignupForm = () => {
                     onChange={formik.handleChange}
                     value={formik.values.username}
                 />
-                Password
+                Password:
                 <input 
                     id="password"
                     name="password"

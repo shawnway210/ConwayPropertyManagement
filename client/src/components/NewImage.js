@@ -5,7 +5,7 @@ import { DarkModeContext } from "./DarkModeContext";
 function NewImage({setImages}){
 
     const { isDarkMode } = useContext(DarkModeContext)
-    
+    console.log(isDarkMode)
     const [image, setImage] = useState("")
     
     const history = useHistory()
@@ -34,16 +34,17 @@ function NewImage({setImages}){
 
     return (
         <div className={isDarkMode ? 'dark' : 'light'}>
-            <h3>Add a Photo</h3>
+            
 
-            <form onSubmit={handleSubmit}>
+            <form className='form-card' onSubmit={handleSubmit}>
+                <h3>Add a Photo</h3>
                 <input
                     label="Image"
                     placeholder="Image"
                     value={image}
                     onChange={(e) => setImage(e.target.value)}
                     />
-                    <button className="add_image">Add Photo</button>
+                <button className="add_image">Add Photo</button>
             </form>
         </div>
     );

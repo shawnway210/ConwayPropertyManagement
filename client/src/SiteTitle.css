@@ -1,0 +1,51 @@
+.site-title-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 120vh;
+    background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqYhgaHzeI2cyUFJ_uLKL7LCtdnh4l7thc_A&usqp=CAU);
+    background-size:cover;
+    background-position: center;
+    animation: fade 25s infinite;
+    }
+    
+    .site-title-container h1 {
+    font-size: 3rem;
+    text-align: center;
+    }
+    
+    .handwriting {
+    animation: handwriting 0.5s forwards;
+    opacity: 0;
+    }
+    
+    @keyframes handwriting {
+    from {
+    opacity: 0;
+    }
+    to {
+    opacity: 1;
+    }
+    }
+    
+    
+    @keyframes fade {
+    0% {
+    }
+    25% {
+    opacity: 5;
+    background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqYhgaHzeI2cyUFJ_uLKL7LCtdnh4l7thc_A&usqp=CAU)
+    }
+    50% {
+    opacity: 5;
+    background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyXwz0kJYyNS_td5CCkghmoF-y9WnNAT9sDg&usqp=CAU)
+    }
+    75% {
+    opacity: 5;
+    background-image: url(https://media.istockphoto.com/id/519339284/nl/foto/sunset-in-oak-island.jpg?s=612x612&w=0&k=20&c=fLt4g0shGvr-BHHmRQCJbjE2N-TbUc7sdeEGfXqV4wQ=)
+    }
+    100% {
+    opacity: 5;
+    background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaKuKMVkuttyFFBwMA3zOWBwmFypAVV2AYoQ&usqp=CAU);
+    }
+    }

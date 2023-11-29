@@ -25,7 +25,7 @@ console.log(images)
     ))
 
     return (
-        <div>
+        <div className="card-container">
             {mappedImages}
             <button onClick={handleClick} type="button">Add Image</button>
         </div>

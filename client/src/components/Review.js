@@ -83,7 +83,7 @@ function Review({ name, rating, comment, property, reviews, setReviews, id },){
 
 
     return(
-        <div>
+        <div className='review-card'>
             <h3>Name:</h3>
             <p>{name}</p>
             <h3>Rating:</h3>
