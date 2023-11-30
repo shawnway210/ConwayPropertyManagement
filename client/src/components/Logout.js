@@ -6,8 +6,9 @@ function Logout({setLogout}){
         fetch("/logout", {
             method: "DELETE",
         }).then(() => setLogout())
+        history.push('/')
     }
-    history.push('/')
+    
     return(
         <header>
             <button onClick={handleLogout} type="button">Logout</button>

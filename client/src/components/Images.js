@@ -25,10 +25,12 @@ console.log(images)
     ))
 
     return (
+        
         <div className="card-container">
             {mappedImages}
-            <button onClick={handleClick} type="button">Add Image</button>
+        <button onClick={handleClick} type="button">Add Image</button>
         </div>
+        
     )
 }
 export default Images

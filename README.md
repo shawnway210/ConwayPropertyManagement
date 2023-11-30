@@ -10,13 +10,11 @@ Navigate to the backend directory.
 
 Install the required Python packages:
 
-bash
-Copy code
+
 pip install -r requirements.txt
 Run the Flask application:
 
-bash
-Copy code
+
 python app.py
 The backend will be accessible at http://localhost:5555.
 
@@ -25,13 +23,11 @@ Navigate to the frontend directory.
 
 Install the required npm packages:
 
-bash
-Copy code
+
 npm install
 Run the React application:
 
-bash
-Copy code
+
 npm start
 The frontend will be accessible at http://localhost:3000.
 
@@ -62,12 +58,5 @@ app.py: Flask application entry point.
 config.py: Configuration settings for the Flask application.
 models.py: SQLAlchemy models for User, Property, Review, Image, and PropertyUser.
 routes.py: Flask routes for handling HTTP requests.
-requirements.txt: List of Python packages required for the backend.
-Contributing
-If you'd like to contribute to this project, follow these steps:
 
-Fork the repository.
-Create a new branch: git checkout -b feature-name
-Make your changes and commit them: git commit -m 'Description of changes'
-Push to the branch: git push origin feature-name
-Submit a pull request.
+

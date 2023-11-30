@@ -19,9 +19,10 @@ function Login({setLogin}){
         body: JSON.stringify({username, password})
     })
     .then(res => res.json())
-    .then(user => { setLogin(user)})  //set user in state
-    }
+    .then(user => { setLogin(user)})  
     history.push('/')
+    }
+    
     return (
         <form onSubmit={handleLogin}>
             <label>
