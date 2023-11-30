@@ -1,5 +1,5 @@
 import React, {useState, useContext} from 'react';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+
 import { DarkModeContext } from './DarkModeContext';
 
 function NewReviewForm({setReviews}){
@@ -10,7 +10,7 @@ function NewReviewForm({setReviews}){
     const [rating, setRating] = useState("");
     const [comment, setComment] = useState("");
     const [property, setProperty] = useState("");
-    const history = useHistory
+    
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -32,10 +32,9 @@ function NewReviewForm({setReviews}){
         fetch(`/reviews`, reviewForm)
             .then((res) => res.json())
             .then((data) => {
-                setReviews( reviews => [ ...reviews, data ])
-                history.push('/reviews')
+                setReviews( reviews => [ ...reviews, data ])   
             })
-
+            
             setName("");
             setProperty("");
             setEmail("");
