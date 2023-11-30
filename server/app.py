@@ -8,17 +8,15 @@ from flask_restful import Resource
 from flask_migrate import Migrate
 
 # Local imports
-from config import app, api
+from config import app, api, db
 # Add your model imports
-from models import db, Property, Review, User, Image
+from models import  Property, Review, User, Image
 
 # Views go here!
 
 @app.route('/')
 def index():
     return '<h1>Project Server</h1>'
-
-
 
 @app.route('/signup', methods = ['POST'])
 def signup():
@@ -88,7 +86,7 @@ def login():
     user = User.query.filter(User.username == username).first()
 
     if user:
-       
+        
         is_authenticated = user.authenticate(password)
 
         if is_authenticated:
@@ -125,96 +123,120 @@ def logout():
 
     return response
 
+@app.route('/users', methods=['GET','POST'])
+def users():
+
+    if request.method == 'GET':
+
+        users = User.query.all()
+
+        users_dict = [user.to_dict() for user in users]
+
+        response = make_response(
+            users_dict, 200
+        )
+        
+    
+    elif request.method == 'POST':
+
+        form_data = request.get_json()
+
+        new_user=User(
+            username = form_data['username'],
+            _password_hash = form_data['password']
+        )
+        db.session.add(new_user)
+        db.session.commit()
+
+        return new_user.to_dict(), 201
+    
+    return response
+    
+    
+
+
 
 
 @app.route('/properties', methods=['GET', 'POST'])
 def properties():
-    properties = Property.query.all()
-
+    
     if request.method == 'GET':
-
-        user = User.query.filter(User.id == session['user_id']).first()
+        
+        properties = Property.query.all()
+       
+        properties_dict = [property.to_dict(rules=('-property_users',)) for property in properties]
 
         response = make_response(
-             properties.to_dict(),
+             properties_dict,
             200
         )
 
     elif request.method == 'POST':
 
-        if user.role == 'Admin':
+        user = User.query.filter(User.id == session['user_id']).first()
         
-            request_json = request.get_json()
+        if user.role == 'Admin':
 
-            name = request_json['name']
-            location = request_json['location']
-            description = request_json['description']
-            amenities = request_json['amenities']
-            availability = request_json['availability']
+            form_data = request.get_json()
 
-        try:
-            
-            property = Property(
-                name=name,
-                location=location,
-                description=description,
-                amenities=amenities,
-                availability=availability,
-                user_id=session['user_id'],
+            new_property= Property(
+                name = form_data['name'],
+                location = form_data['location'],
+                description = form_data['description'],
+                amenities = form_data['amenities'],
+                availability = form_data['availability'],
+                image = form_data['image'],
+                reservation = form_data['reservation']
+
             )
-
-            db.session.add(property)
+        
+            db.session.add(new_property)
             db.session.commit()
 
-            return property.to_dict(), 201
+        return new_property.to_dict(), 201
         
-        except IntegrityError:
-
-            return {'error': '422 Unprocessable Entity'} , 422
+            
+        
         
     return response
+        
+
 
         
 
-@app.route('/properties', methods=['PATCH','DELETE'])
+@app.route('/properties/<int:id>', methods=['DELETE'])
 def property_by_id(id):
-
+    property = Property.query.filter(Property.id == id).first()
     user = User.query.filter(User.id == session['user_id']).first()
 
-    if request.method == 'PATCH':
-        if user.role == 'Admin':
-            request_json = request_json()
+    if user.role == "Admin":
+        db.session.delete(property)
+        db.session.commit()
 
-            try:
-
-                for attr in request_json:
-
-                    setattr(property, attr, request_json.get(attr))
-
-                db.session.commit()
-
-                return property.to_dict(), 202
+        response = make_response(
+            {}, 204
+        )
         
-            except IntegrityError:
-
-                return {'error': '422 Unprocessable Entity'}, 422
-
+    return response
+    
     
 
 
 
 @app.route('/reviews', methods=['GET','POST'])
 def reviews():
-    reviews = Review.query.all()
-
+    
     if request.method == 'GET':
+        
+        reviews = Review.query.all()
 
+        reviews_dict = [review.to_dict() for review in reviews]
+        
         response = make_response(
-            reviews.to_dict(rules=('-email', )),
+            reviews_dict,
             200
         )
-
-        return response
+        
         
     elif request.method == 'POST':
 
@@ -227,18 +249,21 @@ def reviews():
                 name = form_data['name'],
                 email = form_data['email'],
                 rating = form_data['rating'],
-                comment = form_data['comment']
+                comment = form_data['comment'],
+                property_id = form_data['property_id'],
+                
             )
 
             db.session.add(new_review_obj)
             db.session.commit()
 
-            return new_review_obj.to_dict(rules=('-email', ))
+            return new_review_obj.to_dict()
         
         except ValueError:
 
             return {'error': 'Review must have name, email, rating'}
-
+    
+    return response
 
 
 
@@ -258,7 +283,7 @@ def review_by_id(id):
             db.session.commit()
 
             response = make_response(
-                review.to_dict(rules=('-email', )),
+                review.to_dict(),
                 202
             )
         
@@ -285,44 +310,48 @@ def review_by_id(id):
 
 @app.route('/images', methods=['GET', 'POST'])
 def images():
-    images = Image.query.all()
 
+    print('hey')
     if request.method == 'GET':
+        images = Image.query.all()
 
+        images_dict = [image.to_dict() for image in images]
+        
         response = make_response(
-            images.to_dict(),
+            images_dict,
             200
         )
-    elif request.method == ['POST']:
-        user = User.query.filter(User.id == session['user_id']).first()
+        
+    
+    elif request.method == 'POST':
 
-        if user.role == 'Admin':
+            form_data = request.get_json()
 
-            request_json = request.get_json()
-
-            image = request_json['image']
-
-            try:
-
-                new_image = Image(
-                    image=image,
-                    user_id=session['user_id'],
-                )
-
-                db.session.add(new_image)
-                db.session.commit
-
-                return new_image.to_dict(), 201
+           
             
-            except IntegreityError:
 
-                return {'error': '422 Unprocessable Entity'}, 422
+            new_image = Image(
+                    image= form_data['image'],
+                    
+                )
+                
+            db.session.add(new_image)
+            db.session.commit()
+                
+            response = make_response(
+                    new_image.to_dict(), 201
+                )
+                
     return response
-
+    
+    
 
 
 @app.route('/images/<int:id>', methods=['DELETE'])
 def images_by_id(id):
+    image = Image.query.filter(Image.id == id).first()
+    print(session)
+       
     image = Image.query.filter(Image.id == id).first()
 
     user = User.query.filter(User.id == session['user_id']).first()
@@ -341,6 +370,10 @@ def images_by_id(id):
                 {'error': 'Image not found'}, 404
             )
     return response
+
+
+
+
 
 
 

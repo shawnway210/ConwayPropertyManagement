@@ -5,20 +5,17 @@ from datetime import datetime
 from sqlalchemy.orm import validates
 from flask_sqlalchemy import SQLAlchemy
 
-from config import db, bcrypt
+from config import bcrypt,db
 
-from sqlalchemy import MetaData
 
-metadata = MetaData(naming_convention={
-    "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
-})
-db = SQLAlchemy(metadata=metadata)
+
+
 
 # Models go here!
 class Property(db.Model , SerializerMixin):
     __tablename__='properties'
 
-    serialize_rules = ('-property_users.property', '-images.property')
+    serialize_rules = ('-property_users.property', '-images.property', '-reviews.property')
     
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
@@ -26,6 +23,8 @@ class Property(db.Model , SerializerMixin):
     description = db.Column(db.String)
     amenities = db.Column(db.String)
     availability = db.Column(db.String)
+    image = db.Column(db.String)
+    reservation = db.Column(db.String)
     
     property_users = db.relationship('PropertyUser', back_populates='property', cascade='all, delete-orphan')
 
@@ -119,13 +118,15 @@ class User(db.Model, SerializerMixin):
     
     @password_hash.setter
     def password_hash(self, password):
-        # generates hashed version of password
+        print(password.encode('utf-8'))
         new_hashed_password = bcrypt.generate_password_hash(password.encode('utf-8'))
 
         self._password_hash = new_hashed_password.decode('utf-8')
 
     def authenticate(self, password):
-        # check if inputted password matches user's password
+        # check if inputed password matches user's password
+        print(password)
+        print(self._password_hash)
         return bcrypt.check_password_hash(self._password_hash, password.encode('utf-8'))
 
 
@@ -147,10 +148,12 @@ class User(db.Model, SerializerMixin):
         else:
             raise ValueError("Invalid password! Password should be at least 8 characters long and contain at least one lowercase letter, one digit, and one special character (@ $ ! % * ? &)")
         
-    
+
     
 class Image(db.Model, SerializerMixin):
     __tablename__='images'
+
+    serialize_rules = ('-property.images',)
 
     id = db.Column(db.Integer, primary_key=True)
     image = db.Column(db.String)
@@ -161,10 +164,10 @@ class Image(db.Model, SerializerMixin):
 
     @validates('image')
     def validates_image(self, key, image):
-        if image == str:
+        if image:
             return image
         else:
-            raise ValueError("The image must be a string.")
+            raise ValueError("The image must be a image.")
 
 
 
