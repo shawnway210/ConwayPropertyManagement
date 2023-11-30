@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
-
+import { useHistory } from 'react-router-dom/cjs/react-router-dom';
 
 
 function Login({setLogin}){
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
-    
+    const history = useHistory()
 
     console.log(password)
     console.log(username)
@@ -21,6 +21,7 @@ function Login({setLogin}){
     .then(res => res.json())
     .then(user => { setLogin(user)})  //set user in state
     }
+    history.push('/')
     return (
         <form onSubmit={handleLogin}>
             <label>

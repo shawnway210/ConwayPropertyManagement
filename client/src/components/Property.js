@@ -46,7 +46,7 @@ function Property({name, location, description, amenities, availability, image, 
             <p>{description}</p>
             <h2>Amnenties</h2>
             <p>{amenities}</p>
-            <button>
+            <button className='rounded-button button-font'>
             <a href={reservation} target='_balnk' rel='noopener noreferrer'>Reserve</a>
             </button>
             <br/>
@@ -54,13 +54,13 @@ function Property({name, location, description, amenities, availability, image, 
             <button className='delete_property' onClick={() => handleDelete(id)}>Delete</button>
             <br/>
             <br/>
-            <button onClick={handleClick1} type="button">Images</button>
+            <button className='images-button button-font' onClick={handleClick1} type="button">Images</button>
             <br/>
             <br/>
-            <button onClick={handleClick2} type="button">Reviews</button>
+            <button className='reviews-button button-font' onClick={handleClick2} type="button">Reviews</button>
             <br/>
             <br/>
-            <button onClick={handleClick3} type="button">Please Leave A Review</button>
+            <button className='review-button button-font' onClick={handleClick3} type="button">Please Leave A Review</button>
 
         </div>
     )

@@ -1,11 +1,12 @@
 import React, { useEffect, useState} from "react"
 import { useFormik } from "formik"
 import * as yup from "yup"
+import { useHistory } from "react-router-dom/cjs/react-router-dom"
 
 export const SignupForm = () => {
     const [users, setUsers] = useState([{}])
     const [refreshPage, setRefreshPage] = useState(false)
-    
+    const history = useHistory()
 
     useEffect(() =>{
         console.log("Hey")
@@ -41,6 +42,7 @@ export const SignupForm = () => {
                     resetForm()
                 console.log(values)
                 }
+                history.push('/')
                 console.log(values)
             })
         }

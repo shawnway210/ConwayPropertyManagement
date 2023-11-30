@@ -96,5 +96,19 @@
   display: table-cell;
   text-align: center;
 }
-
+.rounded-button{
+  border-radius: 5px;
+}
+.images-button{
+  border-radius: 8px;
+}
+.reviews-button{
+  border-radius: 12px;
+}
+.review_button{
+  border-radius: 15px;
+}
+.button_font{
+  font-family: Georgia;
+}
 

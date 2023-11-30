@@ -3,14 +3,15 @@
     justify-content: center;
     align-items: center;
     height: 120vh;
-    background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqYhgaHzeI2cyUFJ_uLKL7LCtdnh4l7thc_A&usqp=CAU);
-    background-size:cover;
+    background-image: url(https://oak-islandnc.com/wp-content/uploads/2019/08/Oak-Island-Rules-and-Regulations.jpg);
     background-position: center;
-    animation: fade 25s infinite;
+    animation: fade 20s infinite;
+    color: aliceblue;
     }
     
     .site-title-container h1 {
-    font-size: 3rem;
+    font-size: 115px;
+    font-family: garamond;
     text-align: center;
     }
     
@@ -33,19 +34,19 @@
     0% {
     }
     25% {
-    opacity: 5;
-    background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqYhgaHzeI2cyUFJ_uLKL7LCtdnh4l7thc_A&usqp=CAU)
+    opacity: 0;
+    background-image: url(https://a0.muscache.com/im/pictures/miso/Hosting-1020238695595931638/original/25b92775-69b7-47df-9d7c-3314dcac5053.jpeg?im_w=1200)
     }
     50% {
-    opacity: 5;
-    background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyXwz0kJYyNS_td5CCkghmoF-y9WnNAT9sDg&usqp=CAU)
+    opacity: 1;
+    background-image: url(https://www.wilmington-nc.com/images/uploads/static_content/713/wilmington_things_to_do_hero17.jpg?t=h)
     }
     75% {
-    opacity: 5;
-    background-image: url(https://media.istockphoto.com/id/519339284/nl/foto/sunset-in-oak-island.jpg?s=612x612&w=0&k=20&c=fLt4g0shGvr-BHHmRQCJbjE2N-TbUc7sdeEGfXqV4wQ=)
+    opacity: 1;
+    background-image: url(https://images.fineartamerica.com/images/artworkimages/mediumlarge/1/oak-island-sunrise-nick-noble.jpg)
     }
     100% {
-    opacity: 5;
-    background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaKuKMVkuttyFFBwMA3zOWBwmFypAVV2AYoQ&usqp=CAU);
+    opacity: 2;
+    background-image: url(https://assets.simpleviewinc.com/simpleview/image/upload/c_fill,f_jpg,g_xy_center,h_575,q_65,w_1440,x_2368,y_794/v1/clients/wilmingtonnc/Fireworks_7_4_21_downtown_0118b519-3d32-47f7-ad0a-761c934e0f9c.jpg)
     }
     }
