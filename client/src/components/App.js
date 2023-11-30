@@ -48,8 +48,8 @@ function App() {
   
   return (
     <DarkModeProvider className='.dark'>
-    <div class="background-container">
-      <div class="background-image"></div>
+    <div className="background-container">
+      <div className="background-image"></div>
     </div>
   
   <Switch>
