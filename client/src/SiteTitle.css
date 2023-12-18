@@ -2,10 +2,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 120vh;
+    height: 100vh;
     background-image: url(https://oak-islandnc.com/wp-content/uploads/2019/08/Oak-Island-Rules-and-Regulations.jpg);
-    background-position: center;
-    animation: fade 20s infinite;
+    background-position:cover;
+    animation: fade 16s infinite;
     color: aliceblue;
     }
     
@@ -33,8 +33,8 @@
     @keyframes fade {
     0% {
     }
-    25% {
-    opacity: 0;
+    25%{
+    opacity: 1;
     background-image: url(https://a0.muscache.com/im/pictures/miso/Hosting-1020238695595931638/original/25b92775-69b7-47df-9d7c-3314dcac5053.jpeg?im_w=1200)
     }
     50% {
