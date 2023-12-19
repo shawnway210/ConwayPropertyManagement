@@ -8,7 +8,7 @@ console.log(images)
     const history = useHistory()
 
     const handleClick =() => {
-        history.push('/newimage')
+        history.push(`/newimage`)
     }
     const propertyImages = images.filter(image => image.property_id === parseInt(id))
     const mappedImages = propertyImages.map(image =>(

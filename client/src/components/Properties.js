@@ -10,7 +10,7 @@ function Properties({properties, setProperties, setImages, setReviews}){
     const handleClick = () => {
         history.push('/newproperty')
     }
-    
+    console.log(properties)
     const mappedProperties = properties.map(property => (
     
         <Property

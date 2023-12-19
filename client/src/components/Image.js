@@ -21,7 +21,7 @@ function Image({images, image, id, setImages}){
     
         
     }    
-
+    if('Admin')
     return(
         
         <div className = 'image-card'>
@@ -29,6 +29,13 @@ function Image({images, image, id, setImages}){
             <button className="delete_image" onClick={() => handleDelete(id)}>Delete</button>
         </div>
        
-    )   
+    );
+    else
+    return(
+        <div className = 'image-card'>
+            <img className = 'image-img' src = {image} alt = {id}/>
+        </div>
+       
+        ) 
 }
 export default Image

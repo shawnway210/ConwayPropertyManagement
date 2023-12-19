@@ -36,6 +36,7 @@ function Property({name, location, description, amenities, availability, image, 
         })
 
     }
+    if('Admin')
     return (
         <div className='property-container'>
             <p className='property-name'>{name}</p>
@@ -47,22 +48,50 @@ function Property({name, location, description, amenities, availability, image, 
             <h2>Amnenties</h2>
             <p>{amenities}</p>
             <button className='rounded-button button-font'>
-            <a href={reservation} target='_balnk' rel='noopener noreferrer'>Reserve</a>
+            <a href={reservation} >Reserve</a>
             </button>
             <br/>
             <br/>
             <button className='delete_property' onClick={() => handleDelete(id)}>Delete</button>
             <br/>
             <br/>
-            <button className='images-button button-font' onClick={handleClick1} type="button">Images</button>
+            <button className='images-button ' onClick={handleClick1} type="button">Images</button>
             <br/>
             <br/>
-            <button className='reviews-button button-font' onClick={handleClick2} type="button">Reviews</button>
+            <button className='reviews-button ' onClick={handleClick2} type="button">Reviews</button>
             <br/>
             <br/>
-            <button className='review-button button-font' onClick={handleClick3} type="button">Please Leave A Review</button>
+            <button className='review-button ' onClick={handleClick3} type="button">Please Leave A Review</button>
 
         </div>
-    )
+    );
+    else
+    return (
+        <div className='property-container'>
+            <p className='property-name'>{name}</p>
+            <img className='property-img' src = {image} alt = {name}/>
+            <h2>Location</h2>
+            <p>{location}</p>
+            <h2>Description</h2>
+            <p>{description}</p>
+            <h2>Amnenties</h2>
+            <p>{amenities}</p>
+            <button className='rounded-button button-font'>
+            <a href={reservation} >Reserve</a>
+            </button>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <button className='images-button ' onClick={handleClick1} type="button">Images</button>
+            <br/>
+            <br/>
+            <button className='reviews-button ' onClick={handleClick2} type="button">Reviews</button>
+            <br/>
+            <br/>
+            <button className='review-button ' onClick={handleClick3} type="button">Please Leave A Review</button>
+
+        </div>
+        )
 }
 export default Property

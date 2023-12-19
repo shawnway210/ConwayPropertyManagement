@@ -49,7 +49,9 @@ if __name__ == '__main__':
                 availability = 'https://www.airbnb.com/calendar/ical/731915024153813910.ics?s=bbaaa95eef6b88b7d6286b82d0745214',
                 image = 'https://a0.muscache.com/im/pictures/miso/Hosting-731915024153813910/original/da29b252-0507-452f-9dca-aec927354da4.jpeg?im_w=1200',
                 reservation = 'https://www.airbnb.com/rooms/731915024153813910?adults=1&children=0&enable_m3_private_room=true&infants=0&pets=0&check_in=2023-12-01&check_out=2023-12-06&source_impression_id=p3_1700243377_rEWPco5lM%2BRc4NqV&previous_page_section_name=1000&federated_search_id=ea2c9ebc-3cc3-46e4-99c8-7291c98783dd',
-            ),
+            )
+
+            
         ]
 
 
@@ -392,22 +394,8 @@ if __name__ == '__main__':
         
             
 
-        u2=   User(
-                username = 'TooRude420',
-               
-                role = 'visitor',
-            )
-        u2.password_hash = 'Bacio210!'
-      
-
-        u3=   User(
-                username = 'SugarBritches3',
-                
-                role = 'visitor'
-            )
-        u3.password_hash = 'Blaah21$'
-
-        users = [u1, u2, u3]
+        
+        users = [u1]
             
 
         db.session.add_all(users)
@@ -575,8 +563,8 @@ if __name__ == '__main__':
                   property_id = 2,
                   ),
             Image(image = 'https://a0.muscache.com/im/pictures/miso/Hosting-731915024153813910/original/70f0f91f-3f3b-447c-8da9-c1e9b744adfa.jpeg?im_w=1200',
-                  property_id =2,
-                  )
+                  property_id = 2,
+                  ), 
         ]
 
         db.session.add_all(images)
